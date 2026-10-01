@@ -1,0 +1,27 @@
+.build/
+.swiftpm/
+# macOS metadata
+.DS_Store
+
+# Xcode per-user state
+**/xcuserdata/
+*.xcuserstate
+
+# Xcode build output
+build/
+DerivedData/
+*.xcresult
+*.dSYM
+*.dSYM.zip
+*.ipa
+
+# Swift Package Manager
+.build/
+.swiftpm/
+
+# Local environment and signing secrets
+.env
+.env.*
+*.p8
+*.p12
+*.mobileprovision

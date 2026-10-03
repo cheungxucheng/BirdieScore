@@ -5,7 +5,7 @@ Score Tracker is a SwiftUI Apple Watch app for keeping score during badminton ma
 ## Features
 
 - Tap either team panel to award a point.
-- Play best-of-three matches using badminton scoring rules:
+- Play best-of-n matches using badminton scoring rules:
   - A game is normally won at 21 points with a two-point lead.
   - Play continues after 20–20 until a team leads by two.
   - At 29–29, the first team to reach 30 wins.

@@ -1,6 +1,7 @@
 // Imports Foundation types used here, including Date, UUID, UserDefaults, and JSON encoders.
 import Foundation
 
+// indicates the match format and required games to win
 enum NumGames: Int, CaseIterable, Identifiable {
     case bo1 = 1
     case bo3 = 3

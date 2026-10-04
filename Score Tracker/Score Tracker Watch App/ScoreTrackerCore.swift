@@ -2,7 +2,7 @@
 import Foundation
 
 // indicates the match format and required games to win
-enum NumGames: Int, CaseIterable, Identifiable {
+enum NumGames: Int, CaseIterable, Identifiable, Codable{
     case bo1 = 1
     case bo3 = 3
     case bo5 = 5

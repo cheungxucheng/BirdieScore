@@ -28,9 +28,9 @@ enum Team: String, Codable, CaseIterable, Equatable {
 
 // Match Lifecycle
 enum MatchPhase: Equatable { // ...exactly what you think it means
-    case playing
-    case awaitingConfirmation
-    case completed
+    case playing // an ongoing match
+    case awaitingConfirmation // a match that just got completed and is now awaiting completion confirmation
+    case completed // a completed match
 }
 
 struct GameResult: Codable, Equatable {

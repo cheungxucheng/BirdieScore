@@ -82,7 +82,7 @@ final class ActiveMatchPersistence {
         defaults.set(data, forKey: key)
     }
     // load returns an optional ActiveMatchRecord
-    func load() -> AciveMatchRecord? {
+    func load() -> ActiveMatchRecord? {
         // check if defaults at that key exists otherwise return nil
         guard let data = defaults.data(forKey: key) else {
             return nil

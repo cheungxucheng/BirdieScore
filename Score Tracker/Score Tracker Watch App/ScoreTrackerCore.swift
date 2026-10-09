@@ -197,7 +197,7 @@ struct GameState {
             completedGames = saved.completedGames
             gamesWonA = saved.gamesWonA
             gamesWonB = saved.gamesWonB
-            matchPhase = saved.matchPhase
+            matchPhase = saved.phase
         }
 
         self.matchHistoryLimit = max(1, matchHistoryLimit)
@@ -245,10 +245,10 @@ struct GameState {
         saveSnapshot()
         incrementScore(for: winningTeam)
 
-        saveRecord()
         if isGameOver {
             finishGame()
         }
+        saveRecord()
     }
 
     mutating func undoLastPoint() {
@@ -299,6 +299,7 @@ struct GameState {
     }
 
     mutating func startNewMatch(format: NumGames) {
+        activeStorage.clear()
         scoreA = 0
         scoreB = 0
         gameNum = 1
@@ -385,11 +386,11 @@ struct GameState {
                 scoreA: scoreA,
                 scoreB: scoreB,
                 gameNum: gameNum,
-                matchFormat: matchFormat,
+                format: matchFormat,
                 completedGames: completedGames,
                 gamesWonA: gamesWonA,
                 gamesWonB: gamesWonB,
-                matchPhase: matchPhase
+                phase: matchPhase
             )
         )
     }

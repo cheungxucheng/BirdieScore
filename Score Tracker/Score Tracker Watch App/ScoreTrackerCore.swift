@@ -182,7 +182,7 @@ struct GameState {
     private let activeStorage: ActiveMatchPersistence
 
     init(
-        activeStorage: ActiveMatchPersistence = ActiveMatchPersistence()
+        activeStorage: ActiveMatchPersistence = ActiveMatchPersistence(),
         matchHistoryLimit: Int = 10,
         // Declares injectable storage through the protocol type, allowing tests or alternatives.
         persistence: any MatchHistoryPersisting =

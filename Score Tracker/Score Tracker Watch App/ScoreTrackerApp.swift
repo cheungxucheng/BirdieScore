@@ -31,6 +31,17 @@ struct HomeView: View {
     var body: some View {
         NavigationView {
             List {
+                if game.hasActiveMatchProgress {
+                    Button {
+                        showingMatch = true
+                    } label: {
+                        Label(
+                            "Resume Match",
+                            systemImage: "play.fill"
+                        )
+                    }
+                }
+                
                 HStack() {
                     Text("Best Of : ")
                         .font(.body)

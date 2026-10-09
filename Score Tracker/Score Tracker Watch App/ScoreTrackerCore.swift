@@ -26,8 +26,8 @@ enum Team: String, Codable, CaseIterable, Equatable {
     }
 }
 
-// Match Lifecycle
-enum MatchPhase: Equatable { // ...exactly what you think it means
+// Match Lifecycle: playing -> awaitingConfirmation -> completed
+enum MatchPhase: Equatable, Codable { // ...exactly what you think it means
     case playing // an ongoing match
     case awaitingConfirmation // a match that just got completed and is now awaiting completion confirmation
     case completed // a completed match
@@ -51,6 +51,53 @@ struct MatchRecord: Identifiable, Codable, Equatable {
     let playedAt: Date
     let games: [GameResult]
     let winner: Team
+}
+
+// stores current match information necessary for resuming in case of an exit
+struct ActiveMatchRecord: Codable {
+    let phase: MatchPhase
+    let format: NumGames
+    let completedGames: [GameResult]
+    let scoreA: Int
+    let scoreB: Int
+    let gameNum: Int
+    let gamesWonA: Int
+    let gamesWonB: Int
+}
+
+final class ActiveMatchPersistence {
+    private let defaults: UserDefaults
+    private let key = "scoreTracker.activeMatch"
+
+    init(defaults: UserDefaults = .standard) {
+        self.defaults = defaults
+    }
+
+    func save(_ match: ActiveMatchRecord) {
+        // try encoding the active match record, if fails return
+        guard let data = try? JSONEncoder().encode(match) else {
+            return
+        }
+
+        defaults.set(data, forKey: key)
+    }
+    // load returns an optional ActiveMatchRecord
+    func load() -> AciveMatchRecord? {
+        // check if defaults at that key exists otherwise return nil
+        guard let data = defaults.data(forKey: key) else {
+            return nil
+        }
+
+        // try decoding the data from the key into an ActiveMatchRecord
+        return try? JSONDecoder().decode( 
+            ActiveMatchRecord.self,
+            from: data
+        )
+    }
+
+    func clear() {
+        defaults.removeObject(forKey: key)
+    }
 }
 
 // Defines the interface that any match-history storage implementation must provide.
@@ -132,13 +179,27 @@ struct GameState {
     private var undoHistory: [GameSnapshot] = []
     private let matchHistoryLimit: Int
     private let persistence: any MatchHistoryPersisting
+    private let activeStorage: ActiveMatchPersistence
 
     init(
+        activeStorage: ActiveMatchPersistence = ActiveMatchPersistence()
         matchHistoryLimit: Int = 10,
         // Declares injectable storage through the protocol type, allowing tests or alternatives.
         persistence: any MatchHistoryPersisting =
             UserDefaultsMatchHistoryPersistence()
     ) {
+        
+        if let saved = activeStorage.load() {
+            scoreA = saved.scoreA
+            scoreB = saved.scoreB
+            gameNum = saved.gameNum
+            matchFormat = saved.format
+            completedGames = saved.completedGames
+            gamesWonA = saved.gamesWonA
+            gamesWonB = saved.gamesWonB
+            matchPhase = saved.matchPhase
+        }
+
         self.matchHistoryLimit = max(1, matchHistoryLimit)
         self.persistence = persistence
         self.matchHistory = Array(
@@ -184,6 +245,7 @@ struct GameState {
         saveSnapshot()
         incrementScore(for: winningTeam)
 
+        saveRecord()
         if isGameOver {
             finishGame()
         }
@@ -201,6 +263,8 @@ struct GameState {
         gamesWonA = previous.gamesWonA
         gamesWonB = previous.gamesWonB
         matchPhase = previous.matchPhase
+
+        saveRecord()
     }
 
     // Allows callers to ignore this method’s returned record without receiving a compiler warning.
@@ -230,6 +294,7 @@ struct GameState {
 
         undoHistory.removeAll()
         matchPhase = .completed
+        activeStorage.clear()
         return record
     }
 
@@ -247,6 +312,7 @@ struct GameState {
     }
 
     mutating func discardCurrentMatch() {
+        activeStorage.clear()
         startNewMatch(format: matchFormat)
     }
 
@@ -311,5 +377,20 @@ struct GameState {
         if overflow > 0 {
             matchHistory.removeFirst(overflow)
         }
+    }
+
+    private mutating func saveRecord() {
+        activeStorage.save(
+            ActiveMatchRecord(
+                scoreA: scoreA,
+                scoreB: scoreB,
+                gameNum: gameNum,
+                matchFormat: matchFormat,
+                completedGames: completedGames,
+                gamesWonA: gamesWonA,
+                gamesWonB: gamesWonB,
+                matchPhase: matchPhase
+            )
+        )
     }
 }

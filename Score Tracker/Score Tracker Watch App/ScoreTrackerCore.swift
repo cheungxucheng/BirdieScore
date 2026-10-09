@@ -205,6 +205,7 @@ struct GameState {
         self.matchHistory = Array(
             persistence.load().suffix(max(1, matchHistoryLimit))
         )
+        self.activeStorage = activeStorage
     }
 
     var isGameOver: Bool {
@@ -264,7 +265,11 @@ struct GameState {
         gamesWonB = previous.gamesWonB
         matchPhase = previous.matchPhase
 
-        saveRecord()
+        if hasActiveMatchProgress {
+            saveRecord()
+        } else {
+            activeStorage.clear()
+        }
     }
 
     // Allows callers to ignore this method’s returned record without receiving a compiler warning.
@@ -383,14 +388,15 @@ struct GameState {
     private mutating func saveRecord() {
         activeStorage.save(
             ActiveMatchRecord(
+                phase: matchPhase,
+                format: matchFormat,
+                completedGames: completedGames,
                 scoreA: scoreA,
                 scoreB: scoreB,
                 gameNum: gameNum,
-                format: matchFormat,
-                completedGames: completedGames,
                 gamesWonA: gamesWonA,
-                gamesWonB: gamesWonB,
-                phase: matchPhase
+                gamesWonB: gamesWonB
+                
             )
         )
     }

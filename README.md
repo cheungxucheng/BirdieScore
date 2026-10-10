@@ -14,7 +14,7 @@ Score Tracker is a SwiftUI Apple Watch app for keeping score during badminton ma
 - Save and begin another match or return to the home screen.
 - Persist the 10 most recent confirmed matches with `UserDefaults`.
 - Review, delete, or clear saved match history.
-
+- Resume previously unfinished matches.
 
 ## Project structure
 

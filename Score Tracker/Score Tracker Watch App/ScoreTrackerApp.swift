@@ -31,6 +31,42 @@ struct HomeView: View {
     var body: some View {
         NavigationView {
             List {
+                HStack(spacing: 4) {
+                    VStack() {
+                        Text("Best")
+                            .font(.caption2)
+                        Text("Of:")
+                            .font(.caption2)
+                    }
+                    Spacer()
+                    ForEach(NumGames.allCases) { num in
+                        Button {
+                            numsGames = num
+                        } label: {
+                            Text("\(num.rawValue)")
+                                .font(.body)
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 7)
+                                .foregroundStyle(
+                                    numsGames == num ? .white : .primary
+                                )
+                                .background(
+                                    numsGames == num
+                                        ? Color.accentColor
+                                        : Color.gray.opacity(0.3)
+                                )
+                                .cornerRadius(10)
+                                // .clipShape(Capsule())
+                        }
+                        .buttonStyle(.plain)
+                        .accessibilityLabel("Best of \(num.rawValue)")
+                        .accessibilityValue(
+                            numsGames == num ? "Selected" : "Not selected"
+                        )
+                    }
+                }
+                .listRowBackground(Color.black)
+                
                 if game.hasActiveMatchProgress {
                     Button {
                         showingMatch = true
@@ -42,28 +78,12 @@ struct HomeView: View {
                     }
                 }
                 
-                HStack() {
-                    Text("Best Of : ")
-                        .font(.body)
-                    Spacer()
-                    
-                    Picker("Best of :", selection: $numsGames) {
-                        ForEach(NumGames.allCases) { num in
-                            Text("\(num.rawValue)").tag(num)
-                        }
-                    }
-                    .pickerStyle(.wheel)
-                    .labelsHidden()
-                    .frame(width: 50, height: 50)
-                    .clipped()
-                }
-                
                 Button {
                     game.startNewMatch(format: numsGames)
                     showingMatch = true
                 } label: {
                     // Creates a label that combines readable text with the named SF Symbol.
-                    Label("Start Match", systemImage: "plus.circle.fill")
+                    Label("New Match", systemImage: "plus.circle.fill")
                 }
                 .background {
                     NavigationLink(
@@ -173,7 +193,7 @@ struct ScoreView: View {
     var body: some View {
         // Layers the screen-level Undo wedge above the normal score interface.
         GeometryReader { geometry in
-            let compact: Bool = geometry.size.width < 190
+            let compact: Bool = geometry.size.height < 135
             ZStack(alignment: .bottomTrailing) {
                 VStack(spacing: 4) {
                     HStack(spacing: 6) {
@@ -230,8 +250,8 @@ struct ScoreView: View {
                         // Reads the fixed square used to reveal one quarter of the larger circle.
                         GeometryReader { geometry in
                             
-                            let x: CGFloat = compact ? geometry.size.width * 1.1 : geometry.size.width
-                            let y: CGFloat = compact ? geometry.size.height * 0.85 : geometry.size.height
+                            let x: CGFloat = compact ? geometry.size.width * 1.1 : geometry.size.width * 1
+                            let y: CGFloat = compact ? geometry.size.height * 0.85 : geometry.size.height * 0.9
                             
                             // Draws a circle whose center sits at the square's bottom-right corner.
                             Circle()
@@ -263,8 +283,8 @@ struct ScoreView: View {
                         
                         // Displays the Undo symbol near the visual center of the wedge.
                         Image(systemName: "arrow.uturn.backward")
-                            .font(.title2)
-                            .offset(x: compact ? 30 : 25, y: compact ? 10 : 25)
+                            .font(compact ? .title3 : .title2)
+                            .offset(x: compact ? 30 : 25, y: compact ? 7 : 13)
                     }
                     .frame(width: 60, height: 60)
                 }

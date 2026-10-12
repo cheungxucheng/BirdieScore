@@ -26,6 +26,7 @@ struct ScoreTrackerApp: App {
 struct HomeView: View {
     @State private var game = GameState()
     @State private var showingMatch = false
+    @State private var showingConfirmation = false
     @State private var numsGames: NumGames
     init() {
         let savedValue = UserDefaults.standard.integer(
@@ -88,25 +89,27 @@ struct HomeView: View {
                 }
                 
                 Button {
-                    UserDefaults.standard.set(
-                            numsGames.rawValue,
-                            forKey: "scoreTracker.lastMatchFormat"
-                        )
-
-                        game.startNewMatch(format: numsGames)
-                        showingMatch = true
-
+                    if game.hasActiveMatchProgress {
+                        showingConfirmation = true
+                    } else {
+                        startSelectedMatch()
+                    }
                 } label: {
                     // Creates a label that combines readable text with the named SF Symbol.
                     Label("New Match", systemImage: "plus.circle.fill")
                 }
-                .background {
-                    NavigationLink(
-                        destination: BadmintonView(game: $game),
-                        isActive: $showingMatch
-                    ) {
-                        EmptyView()
+                .confirmationDialog(
+                    "Discard the current match?",
+                    isPresented: $showingConfirmation,
+                    titleVisibility: .visible
+                ) {
+                    Button("Discard and Start New", role: .destructive) {
+                        startSelectedMatch()
                     }
+
+                    Button("Keep Current Match", role: .cancel) {}
+                } message: {
+                    Text("The unfinished match will be lost.")
                 }
 
                 NavigationLink {
@@ -115,8 +118,27 @@ struct HomeView: View {
                     Label("Match History", systemImage: "clock.arrow.circlepath")
                 }
             }
+            .background {
+                NavigationLink(
+                    destination: BadmintonView(game: $game),
+                    isActive: $showingMatch
+                ) {
+                    EmptyView()
+                }
+                .hidden()
+                .allowsHitTesting(false)
+            }
             .navigationTitle("Badminton")
         }
+    }
+
+    private func startSelectedMatch() {
+        UserDefaults.standard.set(
+            numsGames.rawValue,
+            forKey: "scoreTracker.lastMatchFormat"
+        )
+        game.startNewMatch(format: numsGames)
+        showingMatch = true
     }
 }
 
@@ -379,9 +401,9 @@ private struct MatchCompletionView: View {
 
     var body: some View {
         ScrollView {
-            VStack(spacing: 12) {
+            VStack(spacing: 5) {
                 Image(systemName: "trophy.fill")
-                    .font(.title2)
+                    .font(.title3)
                     .foregroundStyle(.yellow)
 
                 Text("\(winner.displayName) Wins")
@@ -407,7 +429,7 @@ private struct MatchCompletionView: View {
 
                 Button("Save & Finish", action: saveAndFinish)
             }
-            .padding()
+            // .padding()
         }
     }
 }

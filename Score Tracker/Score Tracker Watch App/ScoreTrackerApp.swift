@@ -25,9 +25,18 @@ struct ScoreTrackerApp: App {
 // Starting screen. Prompts match setup or viewing match history
 struct HomeView: View {
     @State private var game = GameState()
-    @State private var numsGames: NumGames = .bo3
     @State private var showingMatch = false
+    @State private var numsGames: NumGames
+    init() {
+        let savedValue = UserDefaults.standard.integer(
+            forKey: "scoreTracker.lastMatchFormat"
+        )
 
+        _numsGames = State(
+            initialValue: NumGames(rawValue: savedValue) ?? .bo3
+        )
+    }
+    
     var body: some View {
         NavigationView {
             List {
@@ -79,8 +88,14 @@ struct HomeView: View {
                 }
                 
                 Button {
-                    game.startNewMatch(format: numsGames)
-                    showingMatch = true
+                    UserDefaults.standard.set(
+                            numsGames.rawValue,
+                            forKey: "scoreTracker.lastMatchFormat"
+                        )
+
+                        game.startNewMatch(format: numsGames)
+                        showingMatch = true
+
                 } label: {
                     // Creates a label that combines readable text with the named SF Symbol.
                     Label("New Match", systemImage: "plus.circle.fill")

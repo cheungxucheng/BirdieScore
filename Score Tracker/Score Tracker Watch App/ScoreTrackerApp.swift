@@ -109,7 +109,7 @@ struct HomeView: View {
 
                     Button("Keep Current Match", role: .cancel) {}
                 } message: {
-                    Text("The unfinished match will be lost.")
+                    Text("The unfinished match and any unsaved data will be lost.")
                 }
 
                 NavigationLink {

@@ -7,12 +7,14 @@ import WatchKit
 
 @main
 struct ScoreTrackerApp: App {
+    private let defaults = AppLaunchStorage.makeDefaults()
+
     var body: some Scene {
         WindowGroup {
             // WindowGroup is a type of scene that manages 1 <= app windows
             // Think of it as a container for the ui
             // Creates and displays the app’s home screen.
-            HomeView()
+            HomeView(defaults: defaults)
         }
     }
 }
@@ -24,12 +26,19 @@ struct ScoreTrackerApp: App {
 
 // Starting screen. Prompts match setup or viewing match history
 struct HomeView: View {
-    @State private var game = GameState()
+    @State private var game: GameState
     @State private var showingMatch = false
     @State private var showingConfirmation = false
     @State private var numsGames: NumGames
-    init() {
-        let savedValue = UserDefaults.standard.integer(
+    private let defaults: UserDefaults
+
+    init(defaults: UserDefaults = .standard) {
+        self.defaults = defaults
+        _game = State(initialValue: GameState(
+            activeStorage: ActiveMatchPersistence(defaults: defaults),
+            persistence: UserDefaultsMatchHistoryPersistence(defaults: defaults)
+        ))
+        let savedValue = defaults.integer(
             forKey: "scoreTracker.lastMatchFormat"
         )
 
@@ -70,6 +79,7 @@ struct HomeView: View {
                         }
                         .buttonStyle(.plain)
                         .accessibilityLabel("Best of \(num.rawValue)")
+                        .accessibilityIdentifier("format.\(num.rawValue)")
                         .accessibilityValue(
                             numsGames == num ? "Selected" : "Not selected"
                         )
@@ -86,6 +96,7 @@ struct HomeView: View {
                             systemImage: "play.fill"
                         )
                     }
+                    .accessibilityIdentifier("home.resume")
                 }
                 
                 Button {
@@ -98,6 +109,7 @@ struct HomeView: View {
                     // Creates a label that combines readable text with the named SF Symbol.
                     Label("New Match", systemImage: "plus.circle.fill")
                 }
+                .accessibilityIdentifier("home.newMatch")
                 .confirmationDialog(
                     "Discard the current match?",
                     isPresented: $showingConfirmation,
@@ -106,8 +118,10 @@ struct HomeView: View {
                     Button("Discard and Start New", role: .destructive) {
                         startSelectedMatch()
                     }
+                    .accessibilityIdentifier("newMatch.confirm")
 
                     Button("Keep Current Match", role: .cancel) {}
+                        .accessibilityIdentifier("newMatch.cancel")
                 } message: {
                     Text("The unfinished match and any unsaved data will be lost.")
                 }
@@ -117,6 +131,7 @@ struct HomeView: View {
                 } label: {
                     Label("Match History", systemImage: "clock.arrow.circlepath")
                 }
+                .accessibilityIdentifier("home.history")
             }
             .background {
                 NavigationLink(
@@ -133,7 +148,7 @@ struct HomeView: View {
     }
 
     private func startSelectedMatch() {
-        UserDefaults.standard.set(
+        defaults.set(
             numsGames.rawValue,
             forKey: "scoreTracker.lastMatchFormat"
         )
@@ -169,6 +184,8 @@ struct BadmintonView: View {
                         } label: {
                             Image(systemName: "xmark")
                         }
+                        .accessibilityLabel("Discard match")
+                        .accessibilityIdentifier("match.discard")
                     }
                 }
             }
@@ -183,9 +200,11 @@ struct BadmintonView: View {
                     // Asks SwiftUI to close the currently presented or pushed screen.
                     dismiss()
                 }
+                .accessibilityIdentifier("discard.confirm")
 
                 // Creates a cancel button with an intentionally empty action because dismissal is automatic.
                 Button("Keep Playing", role: .cancel) {}
+                    .accessibilityIdentifier("discard.cancel")
             } message: {
                 Text("The unfinished match and its Undo history will be lost.")
             }
@@ -330,6 +349,7 @@ struct ScoreView: View {
                 .offset(x: -20, y: 10)
                 .disabled(!game.canUndo)
                 .accessibilityLabel("Undo last point")
+                .accessibilityIdentifier("score.undo")
                 .accessibilityHint("Restores the score before the most recent point")
             }
         }
@@ -373,6 +393,7 @@ struct ScoreView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .disabled(game.matchPhase != .playing)
         .accessibilityLabel(team.displayName)
+        .accessibilityIdentifier("score.\(team.rawValue)")
         .accessibilityValue("\(score) points")
         .accessibilityHint("Adds one point")
     }
@@ -407,6 +428,7 @@ private struct MatchCompletionView: View {
                     .foregroundStyle(.yellow)
 
                 Text("\(winner.displayName) Wins")
+                    .accessibilityIdentifier("completion.winner")
                     .font(.headline)
                     .multilineTextAlignment(.center)
 
@@ -422,12 +444,15 @@ private struct MatchCompletionView: View {
                     )
 
                 Button("Undo Last Point", action: undo)
+                    .accessibilityIdentifier("completion.undo")
                     .disabled(!canUndo)
 
                 Button("Save & Start New Match", action: saveAndStartNew)
+                    .accessibilityIdentifier("completion.saveAndNew")
                     .buttonStyle(.borderedProminent)
 
                 Button("Save & Finish", action: saveAndFinish)
+                    .accessibilityIdentifier("completion.saveAndFinish")
             }
             // .padding()
         }
@@ -447,6 +472,7 @@ struct MatchHistoryView: View {
                     Image(systemName: "clock.arrow.circlepath")
                         .font(.title2)
                     Text("No Saved Matches")
+                        .accessibilityIdentifier("history.empty")
                         .font(.headline)
                     Text("Confirmed matches will appear here.")
                         .font(.caption)
@@ -475,6 +501,7 @@ struct MatchHistoryView: View {
                     Image(systemName: "trash")
                 }
                 .disabled(game.matchHistory.isEmpty)
+                .accessibilityIdentifier("history.clear")
                 .opacity(game.hasActiveMatchProgress ? 0 : 1)
                 .accessibilityHidden(game.matchHistory.isEmpty || game.hasActiveMatchProgress)
             }
@@ -487,7 +514,9 @@ struct MatchHistoryView: View {
             Button("Clear History", role: .destructive) {
                 game.clearMatchHistory()
             }
+            .accessibilityIdentifier("history.confirmClear")
             Button("Cancel", role: .cancel) {}
+                .accessibilityIdentifier("history.cancelClear")
         } message: {
             Text("This cannot be undone.")
         }
@@ -519,6 +548,7 @@ private struct MatchHistoryRow: View {
             }
             .buttonStyle(.plain)
             .accessibilityLabel("Delete match")
+            .accessibilityIdentifier("history.delete")
         }
         .accessibilityElement(children: .contain)
     }

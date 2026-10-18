@@ -1,6 +1,6 @@
 # Score Tracker
 
-Score Tracker is a SwiftUI Apple Watch app for keeping score during badminton matches. Its score-only interface uses large team buttons for quick input, supports undoing points, and saves completed matches in a match history for later review.
+Score Tracker is a SwiftUI Apple Watch app for keeping score during badminton matches. Its scoring interface uses large team buttons for quick input, supports undoing points, and saves completed matches in a match history for later review.
 
 ## Features
 

@@ -177,8 +177,8 @@ struct BadmintonView: View {
             .navigationBarBackButtonHidden(game.hasActiveMatchProgress)
             // Adds controls to the system-managed navigation toolbar.
             .toolbar {
-                if game.hasActiveMatchProgress {
-                    ToolbarItem(placement: .cancellationAction) {
+                ToolbarItem(placement: .cancellationAction) {
+                    if game.hasActiveMatchProgress {
                         Button {
                             showDiscardConfirmation = true
                         } label: {
@@ -399,10 +399,6 @@ struct ScoreView: View {
     }
 }
 
-#Preview {
-    @Previewable @State var game = GameState()
-    ScoreView(game: $game)
-}
 private struct ScorePanelButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label

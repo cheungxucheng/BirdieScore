@@ -35,7 +35,7 @@ The scoring model is kept separate from SwiftUI. `GameState` owns the current sc
 - An Apple developer account for signing physical-device builds
 - Swift 6.0 or later to run the standalone Swift package tests
 
-The checked-in Xcode project currently has a watchOS 26.5 deployment target. The current interface also uses `NavigationStack` and conditional toolbar content. Lowering the target to watchOS 8 requires replacing those APIs with compatible navigation and toolbar implementations.
+The checked-in Xcode project currently has a watchOS 8.7 deployment target. The current interface also uses `NavigationStack` and conditional toolbar content. Lowering the target to watchOS 8 requires replacing those APIs with compatible navigation and toolbar implementations.
 
 ## Run the watch app
 

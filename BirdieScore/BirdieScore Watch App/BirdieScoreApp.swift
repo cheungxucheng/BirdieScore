@@ -143,7 +143,7 @@ struct HomeView: View {
                 .hidden()
                 .allowsHitTesting(false)
             }
-            .navigationTitle("Badminton")
+            .navigationTitle("Home")
         }
     }
 

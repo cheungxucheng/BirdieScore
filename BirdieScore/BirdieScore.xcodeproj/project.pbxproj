@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		FDAD4A1B303253450066BE40 /* Score Tracker Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = FDAD4A1A303253450066BE40 /* Score Tracker Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		FDAD4A1B303253450066BE40 /* BirdieScore Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = FDAD4A1A303253450066BE40 /* BirdieScore Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,7 +41,7 @@
 			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
 			dstSubfolderSpec = 16;
 			files = (
-				FDAD4A1B303253450066BE40 /* Score Tracker Watch App.app in Embed Watch Content */,
+				FDAD4A1B303253450066BE40 /* BirdieScore Watch App.app in Embed Watch Content */,
 			);
 			name = "Embed Watch Content";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -49,10 +49,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		FDAD4A14303253450066BE40 /* Score Tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Score Tracker.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		FDAD4A1A303253450066BE40 /* Score Tracker Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Score Tracker Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		FDAD4A293032534A0066BE40 /* Score Tracker Watch AppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Score Tracker Watch AppTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		FDAD4A333032534A0066BE40 /* Score Tracker Watch AppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Score Tracker Watch AppUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		FDAD4A14303253450066BE40 /* BirdieScore.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BirdieScore.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		FDAD4A1A303253450066BE40 /* BirdieScore Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "BirdieScore Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		FDAD4A293032534A0066BE40 /* BirdieScore Watch AppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "BirdieScore Watch AppTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		FDAD4A333032534A0066BE40 /* BirdieScore Watch AppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "BirdieScore Watch AppUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -111,10 +111,10 @@
 		FDAD4A15303253450066BE40 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				FDAD4A14303253450066BE40 /* Score Tracker.app */,
-				FDAD4A1A303253450066BE40 /* Score Tracker Watch App.app */,
-				FDAD4A293032534A0066BE40 /* Score Tracker Watch AppTests.xctest */,
-				FDAD4A333032534A0066BE40 /* Score Tracker Watch AppUITests.xctest */,
+				FDAD4A14303253450066BE40 /* BirdieScore.app */,
+				FDAD4A1A303253450066BE40 /* BirdieScore Watch App.app */,
+				FDAD4A293032534A0066BE40 /* BirdieScore Watch AppTests.xctest */,
+				FDAD4A333032534A0066BE40 /* BirdieScore Watch AppUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -122,9 +122,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		FDAD4A13303253450066BE40 /* Score Tracker */ = {
+		FDAD4A13303253450066BE40 /* BirdieScore */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = FDAD4A413032534A0066BE40 /* Build configuration list for PBXNativeTarget "Score Tracker" */;
+			buildConfigurationList = FDAD4A413032534A0066BE40 /* Build configuration list for PBXNativeTarget "BirdieScore" */;
 			buildPhases = (
 				FDAD4A12303253450066BE40 /* Resources */,
 				FDAD4A403032534A0066BE40 /* Embed Watch Content */,
@@ -134,16 +134,16 @@
 			dependencies = (
 				FDAD4A1D303253450066BE40 /* PBXTargetDependency */,
 			);
-			name = "Score Tracker";
+			name = BirdieScore;
 			packageProductDependencies = (
 			);
 			productName = "Score Tracker";
-			productReference = FDAD4A14303253450066BE40 /* Score Tracker.app */;
+			productReference = FDAD4A14303253450066BE40 /* BirdieScore.app */;
 			productType = "com.apple.product-type.application.watchapp2-container";
 		};
-		FDAD4A19303253450066BE40 /* Score Tracker Watch App */ = {
+		FDAD4A19303253450066BE40 /* BirdieScore Watch App */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = FDAD4A3D3032534A0066BE40 /* Build configuration list for PBXNativeTarget "Score Tracker Watch App" */;
+			buildConfigurationList = FDAD4A3D3032534A0066BE40 /* Build configuration list for PBXNativeTarget "BirdieScore Watch App" */;
 			buildPhases = (
 				FDAD4A16303253450066BE40 /* Sources */,
 				FDAD4A17303253450066BE40 /* Frameworks */,
@@ -156,16 +156,16 @@
 			fileSystemSynchronizedGroups = (
 				FDAD4A1E303253450066BE40 /* BirdieScore Watch App */,
 			);
-			name = "Score Tracker Watch App";
+			name = "BirdieScore Watch App";
 			packageProductDependencies = (
 			);
 			productName = "Score Tracker Watch App";
-			productReference = FDAD4A1A303253450066BE40 /* Score Tracker Watch App.app */;
+			productReference = FDAD4A1A303253450066BE40 /* BirdieScore Watch App.app */;
 			productType = "com.apple.product-type.application";
 		};
-		FDAD4A283032534A0066BE40 /* Score Tracker Watch AppTests */ = {
+		FDAD4A283032534A0066BE40 /* BirdieScore Watch AppTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = FDAD4A443032534A0066BE40 /* Build configuration list for PBXNativeTarget "Score Tracker Watch AppTests" */;
+			buildConfigurationList = FDAD4A443032534A0066BE40 /* Build configuration list for PBXNativeTarget "BirdieScore Watch AppTests" */;
 			buildPhases = (
 				FDAD4A253032534A0066BE40 /* Sources */,
 				FDAD4A263032534A0066BE40 /* Frameworks */,
@@ -179,16 +179,16 @@
 			fileSystemSynchronizedGroups = (
 				FDAD4A2C3032534A0066BE40 /* BirdieScore Watch AppTests */,
 			);
-			name = "Score Tracker Watch AppTests";
+			name = "BirdieScore Watch AppTests";
 			packageProductDependencies = (
 			);
 			productName = "Score Tracker Watch AppTests";
-			productReference = FDAD4A293032534A0066BE40 /* Score Tracker Watch AppTests.xctest */;
+			productReference = FDAD4A293032534A0066BE40 /* BirdieScore Watch AppTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		FDAD4A323032534A0066BE40 /* Score Tracker Watch AppUITests */ = {
+		FDAD4A323032534A0066BE40 /* BirdieScore Watch AppUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = FDAD4A473032534A0066BE40 /* Build configuration list for PBXNativeTarget "Score Tracker Watch AppUITests" */;
+			buildConfigurationList = FDAD4A473032534A0066BE40 /* Build configuration list for PBXNativeTarget "BirdieScore Watch AppUITests" */;
 			buildPhases = (
 				FDAD4A2F3032534A0066BE40 /* Sources */,
 				FDAD4A303032534A0066BE40 /* Frameworks */,
@@ -202,11 +202,11 @@
 			fileSystemSynchronizedGroups = (
 				FDAD4A363032534A0066BE40 /* BirdieScore Watch AppUITests */,
 			);
-			name = "Score Tracker Watch AppUITests";
+			name = "BirdieScore Watch AppUITests";
 			packageProductDependencies = (
 			);
 			productName = "Score Tracker Watch AppUITests";
-			productReference = FDAD4A333032534A0066BE40 /* Score Tracker Watch AppUITests.xctest */;
+			productReference = FDAD4A333032534A0066BE40 /* BirdieScore Watch AppUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -249,10 +249,10 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				FDAD4A13303253450066BE40 /* Score Tracker */,
-				FDAD4A19303253450066BE40 /* Score Tracker Watch App */,
-				FDAD4A283032534A0066BE40 /* Score Tracker Watch AppTests */,
-				FDAD4A323032534A0066BE40 /* Score Tracker Watch AppUITests */,
+				FDAD4A13303253450066BE40 /* BirdieScore */,
+				FDAD4A19303253450066BE40 /* BirdieScore Watch App */,
+				FDAD4A283032534A0066BE40 /* BirdieScore Watch AppTests */,
+				FDAD4A323032534A0066BE40 /* BirdieScore Watch AppUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -315,17 +315,17 @@
 /* Begin PBXTargetDependency section */
 		FDAD4A1D303253450066BE40 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = FDAD4A19303253450066BE40 /* Score Tracker Watch App */;
+			target = FDAD4A19303253450066BE40 /* BirdieScore Watch App */;
 			targetProxy = FDAD4A1C303253450066BE40 /* PBXContainerItemProxy */;
 		};
 		FDAD4A2B3032534A0066BE40 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = FDAD4A19303253450066BE40 /* Score Tracker Watch App */;
+			target = FDAD4A19303253450066BE40 /* BirdieScore Watch App */;
 			targetProxy = FDAD4A2A3032534A0066BE40 /* PBXContainerItemProxy */;
 		};
 		FDAD4A353032534A0066BE40 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = FDAD4A19303253450066BE40 /* Score Tracker Watch App */;
+			target = FDAD4A19303253450066BE40 /* BirdieScore Watch App */;
 			targetProxy = FDAD4A343032534A0066BE40 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -455,7 +455,7 @@
 				DEVELOPMENT_TEAM = QH763ZS5S3;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = "Score Tracker";
+				INFOPLIST_KEY_CFBundleDisplayName = BirdieScore;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKWatchOnly = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -488,7 +488,7 @@
 				DEVELOPMENT_TEAM = QH763ZS5S3;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = "Score Tracker";
+				INFOPLIST_KEY_CFBundleDisplayName = BirdieScore;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKWatchOnly = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -518,7 +518,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = QH763ZS5S3;
-				INFOPLIST_KEY_CFBundleDisplayName = "Score Tracker";
+				INFOPLIST_KEY_CFBundleDisplayName = BirdieScore;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.xucheng.Score-Tracker";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -535,7 +535,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = QH763ZS5S3;
-				INFOPLIST_KEY_CFBundleDisplayName = "Score Tracker";
+				INFOPLIST_KEY_CFBundleDisplayName = BirdieScore;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.xucheng.Score-Tracker";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -564,7 +564,7 @@
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Score Tracker Watch App.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Score Tracker Watch App";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BirdieScore Watch App.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/BirdieScore Watch App";
 				WATCHOS_DEPLOYMENT_TARGET = 8.7;
 			};
 			name = Debug;
@@ -586,7 +586,7 @@
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Score Tracker Watch App.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Score Tracker Watch App";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BirdieScore Watch App.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/BirdieScore Watch App";
 				VALIDATE_PRODUCT = YES;
 				WATCHOS_DEPLOYMENT_TARGET = 8.7;
 			};
@@ -647,7 +647,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		FDAD4A3D3032534A0066BE40 /* Build configuration list for PBXNativeTarget "Score Tracker Watch App" */ = {
+		FDAD4A3D3032534A0066BE40 /* Build configuration list for PBXNativeTarget "BirdieScore Watch App" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				FDAD4A3E3032534A0066BE40 /* Debug */,
@@ -656,7 +656,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		FDAD4A413032534A0066BE40 /* Build configuration list for PBXNativeTarget "Score Tracker" */ = {
+		FDAD4A413032534A0066BE40 /* Build configuration list for PBXNativeTarget "BirdieScore" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				FDAD4A423032534A0066BE40 /* Debug */,
@@ -665,7 +665,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		FDAD4A443032534A0066BE40 /* Build configuration list for PBXNativeTarget "Score Tracker Watch AppTests" */ = {
+		FDAD4A443032534A0066BE40 /* Build configuration list for PBXNativeTarget "BirdieScore Watch AppTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				FDAD4A453032534A0066BE40 /* Debug */,
@@ -674,7 +674,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		FDAD4A473032534A0066BE40 /* Build configuration list for PBXNativeTarget "Score Tracker Watch AppUITests" */ = {
+		FDAD4A473032534A0066BE40 /* Build configuration list for PBXNativeTarget "BirdieScore Watch AppUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				FDAD4A483032534A0066BE40 /* Debug */,

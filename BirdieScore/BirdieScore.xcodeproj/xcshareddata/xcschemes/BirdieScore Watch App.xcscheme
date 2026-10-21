@@ -15,9 +15,23 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "FDAD4A19303253450066BE40"
+               BuildableName = "BirdieScore Watch App.app"
+               BlueprintName = "BirdieScore Watch App"
+               ReferencedContainer = "container:BirdieScore.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "FDAD4A13303253450066BE40"
-               BuildableName = "Score Tracker.app"
-               BlueprintName = "Score Tracker"
+               BuildableName = "BirdieScore.app"
+               BlueprintName = "BirdieScore"
                ReferencedContainer = "container:BirdieScore.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -29,6 +43,30 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES"
       shouldAutocreateTestPlan = "YES">
+      <Testables>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "FDAD4A283032534A0066BE40"
+               BuildableName = "BirdieScore Watch AppTests.xctest"
+               BlueprintName = "BirdieScore Watch AppTests"
+               ReferencedContainer = "container:BirdieScore.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "FDAD4A323032534A0066BE40"
+               BuildableName = "BirdieScore Watch AppUITests.xctest"
+               BlueprintName = "BirdieScore Watch AppUITests"
+               ReferencedContainer = "container:BirdieScore.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+      </Testables>
    </TestAction>
    <LaunchAction
       buildConfiguration = "Debug"
@@ -45,9 +83,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "FDAD4A13303253450066BE40"
-            BuildableName = "Score Tracker.app"
-            BlueprintName = "Score Tracker"
+            BlueprintIdentifier = "FDAD4A19303253450066BE40"
+            BuildableName = "BirdieScore Watch App.app"
+            BlueprintName = "BirdieScore Watch App"
             ReferencedContainer = "container:BirdieScore.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -62,9 +100,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "FDAD4A13303253450066BE40"
-            BuildableName = "Score Tracker.app"
-            BlueprintName = "Score Tracker"
+            BlueprintIdentifier = "FDAD4A19303253450066BE40"
+            BuildableName = "BirdieScore Watch App.app"
+            BlueprintName = "BirdieScore Watch App"
             ReferencedContainer = "container:BirdieScore.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

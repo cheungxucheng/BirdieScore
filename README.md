@@ -1,6 +1,6 @@
-# Score Tracker
+#  BirdieScore
 
-Score Tracker is a SwiftUI Apple Watch app for keeping score during badminton matches. Its scoring interface uses large team buttons for quick input, supports undoing points, and saves completed matches in a match history for later review.
+BirdieScore is a SwiftUI Apple Watch app for keeping score during badminton matches. Its scoring interface uses large team buttons for quick input, supports undoing points, and saves completed matches in a match history for later review.
 
 ## Features
 
@@ -16,18 +16,6 @@ Score Tracker is a SwiftUI Apple Watch app for keeping score during badminton ma
 - Review, delete, or clear saved match history.
 - Resume previously unfinished matches.
 
-## Project structure
-
-```text
-ScoreTrackerApp.swift                  SwiftUI app and watch interface
-ScoreTrackerCore.swift                 Scoring, undo, lifecycle, and persistence logic
-Package.swift                          Swift package for the platform-independent core
-Tests/ScoreTrackerCoreTests.swift      Core unit tests
-Score Tracker/                         Xcode watchOS project and Xcode test targets
-```
-
-The scoring model is kept separate from SwiftUI. `GameState` owns the current scores, completed games, match phase, undo snapshots, and saved match records. Match-history persistence is abstracted behind `MatchHistoryPersisting`, allowing tests to use in-memory storage instead of `UserDefaults`.
-
 ## Requirements
 
 - A Mac with Xcode
@@ -39,8 +27,8 @@ The checked-in Xcode project currently has a watchOS 8.7 deployment target. The 
 
 ## Run the watch app
 
-1. Open `Score Tracker/Score Tracker.xcodeproj` in Xcode.
-2. Select the **Score Tracker Watch App** scheme.
+1. Open `BirdieScore/BirdieScore.xcodeproj` in Xcode.
+2. Select the **BirdieScore Watch App** scheme.
 3. Choose an Apple Watch simulator or paired physical Watch as the run destination.
 4. Under **Signing & Capabilities**, select your development team and use bundle identifiers available to that team.
 5. Build and run with **Command-R**.

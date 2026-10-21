@@ -18,7 +18,7 @@
                BlueprintIdentifier = "FDAD4A13303253450066BE40"
                BuildableName = "Score Tracker.app"
                BlueprintName = "Score Tracker"
-               ReferencedContainer = "container:Score Tracker.xcodeproj">
+               ReferencedContainer = "container:BirdieScore.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -48,7 +48,7 @@
             BlueprintIdentifier = "FDAD4A13303253450066BE40"
             BuildableName = "Score Tracker.app"
             BlueprintName = "Score Tracker"
-            ReferencedContainer = "container:Score Tracker.xcodeproj">
+            ReferencedContainer = "container:BirdieScore.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -65,7 +65,7 @@
             BlueprintIdentifier = "FDAD4A13303253450066BE40"
             BuildableName = "Score Tracker.app"
             BlueprintName = "Score Tracker"
-            ReferencedContainer = "container:Score Tracker.xcodeproj">
+            ReferencedContainer = "container:BirdieScore.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

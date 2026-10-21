@@ -67,7 +67,7 @@ struct ActiveMatchRecord: Codable {
 
 final class ActiveMatchPersistence {
     private let defaults: UserDefaults
-    private let key = "scoreTracker.activeMatch"
+    private let key = "birdieScore.activeMatch"
 
     init(defaults: UserDefaults = .standard) {
         self.defaults = defaults
@@ -118,7 +118,7 @@ final class UserDefaultsMatchHistoryPersistence: MatchHistoryPersisting {
     init(
         // Declares an injectable UserDefaults parameter whose default is the app’s standard database.
         defaults: UserDefaults = .standard,
-        key: String = "scoreTracker.matchHistory"
+        key: String = "birdieScore.matchHistory"
     ) {
         self.defaults = defaults
         self.key = key

@@ -3,7 +3,7 @@ import XCTest
 @MainActor
 final class MatchFlowUITests: XCTestCase {
     private let app = XCUIApplication()
-    private let suite = "scoreTracker.uiTests.\(UUID().uuidString)"
+    private let suite = "birdieScore.uiTests.\(UUID().uuidString)"
 
     override func setUpWithError() throws {
         continueAfterFailure = false
@@ -13,8 +13,8 @@ final class MatchFlowUITests: XCTestCase {
         // Remove only this test's isolated data, then close its app instance.
         app.terminate()
         app.launchEnvironment = [
-            "SCORE_TRACKER_UI_TEST_SUITE": suite,
-            "SCORE_TRACKER_UI_TEST_RESET": "1"
+            "BIRDIE_SCORE_UI_TEST_SUITE": suite,
+            "BIRDIE_SCORE_UI_TEST_RESET": "1"
         ]
         app.launch()
         app.terminate()
@@ -182,10 +182,10 @@ final class MatchFlowUITests: XCTestCase {
 
     private func launchFresh(fixture: String? = nil) {
         app.launchEnvironment = [
-            "SCORE_TRACKER_UI_TEST_SUITE": suite,
-            "SCORE_TRACKER_UI_TEST_RESET": "1"
+            "BIRDIE_SCORE_UI_TEST_SUITE": suite,
+            "BIRDIE_SCORE_UI_TEST_RESET": "1"
         ]
-        app.launchEnvironment["SCORE_TRACKER_UI_TEST_FIXTURE"] = fixture
+        app.launchEnvironment["BIRDIE_SCORE_UI_TEST_FIXTURE"] = fixture
         app.launch()
         XCTAssertTrue(app.buttons["home.newMatch"].waitForExistence(timeout: 10))
     }
@@ -193,7 +193,7 @@ final class MatchFlowUITests: XCTestCase {
     private func relaunch() {
         app.terminate()
         // Keep the same isolated store, without resetting or reseeding it.
-        app.launchEnvironment = ["SCORE_TRACKER_UI_TEST_SUITE": suite]
+        app.launchEnvironment = ["BIRDIE_SCORE_UI_TEST_SUITE": suite]
         app.launch()
         XCTAssertTrue(app.buttons["home.newMatch"].waitForExistence(timeout: 10))
     }

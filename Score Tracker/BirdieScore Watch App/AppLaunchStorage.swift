@@ -5,12 +5,12 @@ enum AppLaunchStorage {
         #if DEBUG
         // UI tests use a separate domain; release builds always use normal app storage.
         let environment = ProcessInfo.processInfo.environment
-        if let suite = environment["SCORE_TRACKER_UI_TEST_SUITE"],
-           suite.hasPrefix("scoreTracker.uiTests."),
+        if let suite = environment["BIRDIE_SCORE_UI_TEST_SUITE"],
+           suite.hasPrefix("birdieScore.uiTests."),
            let defaults = UserDefaults(suiteName: suite) {
-            if environment["SCORE_TRACKER_UI_TEST_RESET"] == "1" {
+            if environment["BIRDIE_SCORE_UI_TEST_RESET"] == "1" {
                 defaults.removePersistentDomain(forName: suite)
-                seedFixture(environment["SCORE_TRACKER_UI_TEST_FIXTURE"], defaults: defaults)
+                seedFixture(environment["BIRDIE_SCORE_UI_TEST_FIXTURE"], defaults: defaults)
             }
             return defaults
         }
@@ -25,7 +25,7 @@ enum AppLaunchStorage {
             activeStorage: ActiveMatchPersistence(defaults: defaults),
             persistence: UserDefaultsMatchHistoryPersistence(defaults: defaults)
         )
-        defaults.set(NumGames.bo1.rawValue, forKey: "scoreTracker.lastMatchFormat")
+        defaults.set(NumGames.bo1.rawValue, forKey: "birdieScore.lastMatchFormat")
 
         if fixture == "matchPoint" {
             game.startNewMatch(format: .bo1)

@@ -20,7 +20,7 @@ final class MemoryMatchHistoryPersistence: MatchHistoryPersisting {
     }
 }
 
-final class ScoreTrackerCoreTests: XCTestCase {
+final class BirdieScoreCoreTests: XCTestCase {
     private var defaultsSuites: [String] = []
 
     override func tearDown() {
@@ -281,7 +281,7 @@ final class ScoreTrackerCoreTests: XCTestCase {
 
         defaults.set(
             Data("not-json".utf8),
-            forKey: "scoreTracker.activeMatch"
+            forKey: "birdieScore.activeMatch"
         )
 
         XCTAssertNil(storage.load())
@@ -437,7 +437,7 @@ final class ScoreTrackerCoreTests: XCTestCase {
     }
 
     private func makeDefaults() -> UserDefaults {
-        let suite = "ScoreTrackerCoreTests.\(UUID().uuidString)"
+        let suite = "BirdieScoreCoreTests.\(UUID().uuidString)"
         defaultsSuites.append(suite)
         let defaults = UserDefaults(suiteName: suite)!
         defaults.removePersistentDomain(forName: suite)

@@ -56,19 +56,19 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		FDAD4A1E303253450066BE40 /* Score Tracker Watch App */ = {
+		FDAD4A1E303253450066BE40 /* BirdieScore Watch App */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "Score Tracker Watch App";
+			path = "BirdieScore Watch App";
 			sourceTree = "<group>";
 		};
-		FDAD4A2C3032534A0066BE40 /* Score Tracker Watch AppTests */ = {
+		FDAD4A2C3032534A0066BE40 /* BirdieScore Watch AppTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "Score Tracker Watch AppTests";
+			path = "BirdieScore Watch AppTests";
 			sourceTree = "<group>";
 		};
-		FDAD4A363032534A0066BE40 /* Score Tracker Watch AppUITests */ = {
+		FDAD4A363032534A0066BE40 /* BirdieScore Watch AppUITests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "Score Tracker Watch AppUITests";
+			path = "BirdieScore Watch AppUITests";
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -101,9 +101,9 @@
 		FDAD4A0D303253450066BE40 = {
 			isa = PBXGroup;
 			children = (
-				FDAD4A1E303253450066BE40 /* Score Tracker Watch App */,
-				FDAD4A2C3032534A0066BE40 /* Score Tracker Watch AppTests */,
-				FDAD4A363032534A0066BE40 /* Score Tracker Watch AppUITests */,
+				FDAD4A1E303253450066BE40 /* BirdieScore Watch App */,
+				FDAD4A2C3032534A0066BE40 /* BirdieScore Watch AppTests */,
+				FDAD4A363032534A0066BE40 /* BirdieScore Watch AppUITests */,
 				FDAD4A15303253450066BE40 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -154,7 +154,7 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				FDAD4A1E303253450066BE40 /* Score Tracker Watch App */,
+				FDAD4A1E303253450066BE40 /* BirdieScore Watch App */,
 			);
 			name = "Score Tracker Watch App";
 			packageProductDependencies = (
@@ -177,7 +177,7 @@
 				FDAD4A2B3032534A0066BE40 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				FDAD4A2C3032534A0066BE40 /* Score Tracker Watch AppTests */,
+				FDAD4A2C3032534A0066BE40 /* BirdieScore Watch AppTests */,
 			);
 			name = "Score Tracker Watch AppTests";
 			packageProductDependencies = (
@@ -200,7 +200,7 @@
 				FDAD4A353032534A0066BE40 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				FDAD4A363032534A0066BE40 /* Score Tracker Watch AppUITests */,
+				FDAD4A363032534A0066BE40 /* BirdieScore Watch AppUITests */,
 			);
 			name = "Score Tracker Watch AppUITests";
 			packageProductDependencies = (

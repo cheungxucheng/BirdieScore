@@ -6,7 +6,7 @@ import WatchKit
 #endif
 
 @main
-struct ScoreTrackerApp: App {
+struct BirdieScoreApp: App {
     private let defaults = AppLaunchStorage.makeDefaults()
 
     var body: some Scene {
@@ -39,7 +39,7 @@ struct HomeView: View {
             persistence: UserDefaultsMatchHistoryPersistence(defaults: defaults)
         ))
         let savedValue = defaults.integer(
-            forKey: "scoreTracker.lastMatchFormat"
+            forKey: "birdieScore.lastMatchFormat"
         )
 
         _numsGames = State(
@@ -150,7 +150,7 @@ struct HomeView: View {
     private func startSelectedMatch() {
         defaults.set(
             numsGames.rawValue,
-            forKey: "scoreTracker.lastMatchFormat"
+            forKey: "birdieScore.lastMatchFormat"
         )
         game.startNewMatch(format: numsGames)
         showingMatch = true

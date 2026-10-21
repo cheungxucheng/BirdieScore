@@ -1,6 +1,6 @@
 import Foundation
 import XCTest
-@testable import Score_Tracker_Watch_App
+@testable import BirdieScore_Watch_App
 
 final class MemoryMatchHistoryPersistence: MatchHistoryPersisting {
     var records: [MatchRecord]

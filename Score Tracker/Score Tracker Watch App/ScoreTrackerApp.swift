@@ -214,11 +214,6 @@ struct BadmintonView: View {
                     MatchCompletionView(
                         winner: winner,
                         games: game.completedGames,
-                        canUndo: game.canUndo,
-                        undo: {
-                            game.undoLastPoint()
-                            Haptics.undo()
-                        },
                         saveAndStartNew: {
                             game.confirmCompletedMatch()
                             game.startNewMatch(format: game.matchFormat)
@@ -227,8 +222,24 @@ struct BadmintonView: View {
                             game.confirmCompletedMatch()
                             game.startNewMatch(format: game.matchFormat)
                             dismiss()
+                        },
+                        discardAndFinish: {
+                            game.discardCurrentMatch()
+                            dismiss()
                         }
                     )
+                    .toolbar {
+                        ToolbarItem(placement: .cancellationAction) {
+                            Button {
+                                game.undoLastPoint()
+                                Haptics.undo()
+                            } label: {
+                                Image(systemName: "arrow.uturn.backward")
+                            }
+                            .accessibilityLabel("Undo last point")
+                            .accessibilityIdentifier("score.undo")
+                        }
+                    }
                     .interactiveDismissDisabled()
                 }
             }
@@ -411,10 +422,9 @@ private struct ScorePanelButtonStyle: ButtonStyle {
 private struct MatchCompletionView: View {
     let winner: Team
     let games: [GameResult]
-    let canUndo: Bool
-    let undo: () -> Void
     let saveAndStartNew: () -> Void
     let saveAndFinish: () -> Void
+    let discardAndFinish: () -> Void
 
     var body: some View {
         ScrollView {
@@ -438,17 +448,16 @@ private struct MatchCompletionView: View {
                             .map { "Game \($0.offset + 1), \($0.element.scoreA) to \($0.element.scoreB)" }
                             .joined(separator: ", ")
                     )
-
-                Button("Undo Last Point", action: undo)
-                    .accessibilityIdentifier("completion.undo")
-                    .disabled(!canUndo)
-
+                
                 Button("Save & Start New Match", action: saveAndStartNew)
                     .accessibilityIdentifier("completion.saveAndNew")
                     .buttonStyle(.borderedProminent)
 
                 Button("Save & Finish", action: saveAndFinish)
                     .accessibilityIdentifier("completion.saveAndFinish")
+                
+                Button("Discard Match", role: .destructive, action: discardAndFinish)
+                    .accessibilityIdentifier("completion.discard")
             }
             // .padding()
         }

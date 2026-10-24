@@ -35,15 +35,6 @@ The Xcode project currently has a watchOS 8.7 deployment target. The current int
 
 For a physical Watch, keep the paired iPhone connected to the Mac and ensure Developer Mode is enabled on both devices.
 
-## Run tests
-
-Run the platform-independent model tests from the repository root:
-
-```sh
-swift test
-```
-
-To run the Xcode unit and UI test targets, open the Xcode project, select a compatible Watch simulator, and use **Product > Test** or **Command-U**.
 
 ## Match lifecycle and storage
 

@@ -196,12 +196,13 @@ final class BirdieScoreCoreTests: XCTestCase {
         var game = makeGame(format: .bo3, persistence: history)
 
         game.pointWon(by: .teamA)
-        game.startNewMatch(format: .bo5)
+        game.startNewMatch(format: MatchFormat(bestOf: .bo5, points: .p21))
 
         XCTAssertEqual(game.scoreA, 0)
         XCTAssertEqual(game.scoreB, 0)
         XCTAssertEqual(game.gameNum, 1)
-        XCTAssertEqual(game.matchFormat, .bo5)
+        XCTAssertEqual(game.matchFormat.bestOf, .bo5)
+        XCTAssertEqual(game.matchFormat.points, .p21)
         XCTAssertEqual(game.matchPhase, .playing)
         XCTAssertFalse(game.canUndo)
         XCTAssertEqual(game.matchHistory, [existing])
@@ -248,7 +249,7 @@ final class BirdieScoreCoreTests: XCTestCase {
         let storage = ActiveMatchPersistence(defaults: defaults)
         let saved = ActiveMatchRecord(
             phase: .playing,
-            format: .bo5,
+            format: MatchFormat(bestOf: .bo5, points: .p21),
             completedGames: [GameResult(scoreA: 21, scoreB: 18)],
             scoreA: 7,
             scoreB: 4,
@@ -261,7 +262,8 @@ final class BirdieScoreCoreTests: XCTestCase {
         let loaded = storage.load()
 
         XCTAssertEqual(loaded?.phase, saved.phase)
-        XCTAssertEqual(loaded?.format, saved.format)
+        XCTAssertEqual(loaded?.format.bestOf, saved.format.bestOf)
+        XCTAssertEqual(loaded?.format.points, saved.format.points)
         XCTAssertEqual(loaded?.completedGames, saved.completedGames)
         XCTAssertEqual(loaded?.scoreA, saved.scoreA)
         XCTAssertEqual(loaded?.scoreB, saved.scoreB)
@@ -295,7 +297,7 @@ final class BirdieScoreCoreTests: XCTestCase {
             activeStorage: activeStorage,
             persistence: history
         )
-        original.startNewMatch(format: .bo5)
+        original.startNewMatch(format: MatchFormat(bestOf: .bo5, points: .p21))
         winGame(for: .teamA, in: &original)
         original.pointWon(by: .teamA)
         original.pointWon(by: .teamB)
@@ -306,7 +308,8 @@ final class BirdieScoreCoreTests: XCTestCase {
             persistence: history
         )
 
-        XCTAssertEqual(restored.matchFormat, .bo5)
+        XCTAssertEqual(restored.matchFormat.bestOf, .bo5)
+        XCTAssertEqual(restored.matchFormat.points, .p21)
         XCTAssertEqual(restored.completedGames, [
             GameResult(scoreA: 21, scoreB: 19)
         ])
@@ -329,7 +332,7 @@ final class BirdieScoreCoreTests: XCTestCase {
             activeStorage: activeStorage,
             persistence: MemoryMatchHistoryPersistence()
         )
-        game.startNewMatch(format: .bo3)
+        game.startNewMatch(format: MatchFormat(bestOf: .bo3, points: .p21))
         game.pointWon(by: .teamA)
         XCTAssertNotNil(activeStorage.load())
 
@@ -350,7 +353,7 @@ final class BirdieScoreCoreTests: XCTestCase {
             activeStorage: activeStorage,
             persistence: history
         )
-        game.startNewMatch(format: .bo1)
+        game.startNewMatch(format: MatchFormat(bestOf: .bo1, points: .p21))
         winGame(for: .teamA, in: &game)
         XCTAssertNotNil(activeStorage.load())
 
@@ -432,7 +435,7 @@ final class BirdieScoreCoreTests: XCTestCase {
             matchHistoryLimit: limit,
             persistence: persistence
         )
-        game.startNewMatch(format: format)
+        game.startNewMatch(format: MatchFormat(bestOf: format, points: .p21))
         return game
     }
 

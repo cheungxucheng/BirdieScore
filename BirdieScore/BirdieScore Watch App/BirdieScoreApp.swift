@@ -30,6 +30,7 @@ struct HomeView: View {
     @State private var showingMatch = false
     @State private var showingConfirmation = false
     @State private var numsGames: NumGames
+    @State private var points: PointsPerGame
     private let defaults: UserDefaults
 
     init(defaults: UserDefaults = .standard) {
@@ -39,17 +40,60 @@ struct HomeView: View {
             persistence: UserDefaultsMatchHistoryPersistence(defaults: defaults)
         ))
         let savedValue = defaults.integer(
-            forKey: "birdieScore.lastMatchFormat"
+            forKey: "birdieScore.lastNumGames"
         )
 
         _numsGames = State(
             initialValue: NumGames(rawValue: savedValue) ?? .bo3
+        )
+
+        let pointValue = defaults.integer(
+            forKey: "birdieScore.lastGamePoints"
+        )
+
+        _points = State(
+            initialValue: PointsPerGame(rawValue: pointValue) ?? .p21
         )
     }
     
     var body: some View {
         NavigationView {
             List {
+                HStack(spacing: 4) {
+                    VStack() {
+                        Text("Points: ")
+                            .font(.caption2)
+                    }
+                    Spacer()
+                    ForEach(PointsPerGame.allCases) { num in
+                        Button {
+                            points = num
+                        } label: {
+                            Text("\(num.rawValue)")
+                                .font(.body)
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 7)
+                                .foregroundStyle(
+                                    points == num ? .white : .primary
+                                )
+                                .background(
+                                    points == num
+                                        ? Color.accentColor
+                                        : Color.gray.opacity(0.3)
+                                )
+                                .cornerRadius(10)
+                                // .clipShape(Capsule())
+                        }
+                        .buttonStyle(.plain)
+                        .accessibilityLabel("Points \(num.rawValue)")
+                        .accessibilityIdentifier("format.\(num.rawValue)")
+                        .accessibilityValue(
+                            points == num ? "Selected" : "Not selected"
+                        )
+                    }
+                }
+                .listRowBackground(Color.black)
+
                 HStack(spacing: 4) {
                     VStack() {
                         Text("Best")
@@ -150,9 +194,14 @@ struct HomeView: View {
     private func startSelectedMatch() {
         defaults.set(
             numsGames.rawValue,
-            forKey: "birdieScore.lastMatchFormat"
+            forKey: "birdieScore.lastNumGames"
         )
-        game.startNewMatch(format: numsGames)
+        defaults.set(
+            points.rawValue,
+            forKey: "birdieScore.lastGamePoints"
+        )
+        let matchFormat = MatchFormat(bestOf: numsGames, points: points)
+        game.startNewMatch(format: matchFormat)
         showingMatch = true
     }
 }

@@ -2,13 +2,34 @@
 import Foundation
 
 // indicates the match format and required games to win
-enum NumGames: Int, CaseIterable, Identifiable, Codable{
+enum NumGames: Int, CaseIterable, Identifiable, Codable {
     case bo1 = 1
     case bo3 = 3
     case bo5 = 5
     
     var id: Int {self.rawValue}
     var gamesNeededToWin: Int {(rawValue / 2) + 1}
+}
+
+// indicates points per game
+enum PointsPerGame: Int, CaseIterable, Identifiable, Codable {
+    // switch identifiers can't begin with numbers????? i guess man
+    case p11 = 11
+    case p15 = 15
+    case p21 = 21
+
+    var id: Int {self.rawValue}
+
+    var pointCap: Int {
+        switch self {
+        case .p11:
+            return 11
+        case .p15:
+            return 21
+        case .p21:
+            return 30
+        }
+    }
 }
 
 enum Team: String, Codable, CaseIterable, Equatable {
@@ -31,6 +52,11 @@ enum MatchPhase: Equatable, Codable { // ...exactly what you think it means
     case playing // an ongoing match
     case awaitingConfirmation // a match that just got completed and is now awaiting completion confirmation
     case completed // a completed match
+}
+
+struct MatchFormat: Codable {
+    let bestOf: NumGames
+    let points: PointsPerGame
 }
 
 struct GameResult: Codable, Equatable {
@@ -56,7 +82,7 @@ struct MatchRecord: Identifiable, Codable, Equatable {
 // stores current match information necessary for resuming in case of an exit
 struct ActiveMatchRecord: Codable {
     let phase: MatchPhase
-    let format: NumGames
+    let format: MatchFormat
     let completedGames: [GameResult]
     let scoreA: Int
     let scoreB: Int
@@ -169,7 +195,7 @@ struct GameState {
     private(set) var scoreA = 0
     private(set) var scoreB = 0
     private(set) var gameNum = 1
-    private(set) var matchFormat: NumGames = .bo3
+    private(set) var matchFormat = MatchFormat(bestOf: .bo3, points: .p21)
     private(set) var completedGames: [GameResult] = []
     private(set) var gamesWonA = 0
     private(set) var gamesWonB = 0
@@ -183,7 +209,7 @@ struct GameState {
 
     init(
         activeStorage: ActiveMatchPersistence = ActiveMatchPersistence(),
-        matchHistoryLimit: Int = 10,
+        matchHistoryLimit: Int = 25,
         // Declares injectable storage through the protocol type, allowing tests or alternatives.
         persistence: any MatchHistoryPersisting =
             UserDefaultsMatchHistoryPersistence()
@@ -210,20 +236,20 @@ struct GameState {
 
     var isGameOver: Bool {
         let leadingScore = max(scoreA, scoreB)
-        return leadingScore == 30 ||
-            (leadingScore >= 21 && abs(scoreA - scoreB) >= 2)
+        return leadingScore == matchFormat.points.pointCap ||
+            (leadingScore >= matchFormat.points.rawValue && abs(scoreA - scoreB) >= 2)
     }
 
     var isMatchOver: Bool {
-        gamesWonA == matchFormat.gamesNeededToWin || gamesWonB == matchFormat.gamesNeededToWin
+        gamesWonA == matchFormat.bestOf.gamesNeededToWin || gamesWonB == matchFormat.bestOf.gamesNeededToWin
     }
 
     var matchWinner: Team? {
-        if gamesWonA == matchFormat.gamesNeededToWin {
+        if gamesWonA == matchFormat.bestOf.gamesNeededToWin {
             return .teamA
         }
 
-        if gamesWonB == matchFormat.gamesNeededToWin {
+        if gamesWonB == matchFormat.bestOf.gamesNeededToWin {
             return .teamB
         }
 
@@ -303,7 +329,7 @@ struct GameState {
         return record
     }
 
-    mutating func startNewMatch(format: NumGames) {
+    mutating func startNewMatch(format: MatchFormat) {
         activeStorage.clear()
         scoreA = 0
         scoreB = 0

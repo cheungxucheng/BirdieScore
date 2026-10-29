@@ -25,14 +25,15 @@ enum AppLaunchStorage {
             activeStorage: ActiveMatchPersistence(defaults: defaults),
             persistence: UserDefaultsMatchHistoryPersistence(defaults: defaults)
         )
-        defaults.set(NumGames.bo1.rawValue, forKey: "birdieScore.lastMatchFormat")
-
+        defaults.set(NumGames.bo1.rawValue, forKey: "birdieScore.lastNumGames")
+        defaults.set(PointsPerGame.p21.rawValue, forKey: "birdieScore.lastGamePoints")
+        
         if fixture == "matchPoint" {
-            game.startNewMatch(format: .bo1)
+            game.startNewMatch(format: MatchFormat(bestOf: .bo1, points: .p21))
             for _ in 0..<20 { game.pointWon(by: .teamA) }
         } else {
             for index in 0..<2 {
-                game.startNewMatch(format: .bo1)
+                game.startNewMatch(format: MatchFormat(bestOf: .bo1, points: .p21))
                 let winner: Team = index == 0 ? .teamA : .teamB
                 for _ in 0..<21 { game.pointWon(by: winner) }
                 game.confirmCompletedMatch(at: Date(timeIntervalSince1970: Double(index + 1)))

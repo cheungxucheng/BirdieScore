@@ -61,7 +61,10 @@ struct HomeView: View {
             List {
                 VStack(spacing: 10) {
                     HStack(spacing: 8) {
-                        Text("Pts: ").font(.caption2)
+                        Text("Pts: ")
+                            .font(.caption2)
+                            .lineLimit(1)
+                            .minimumScaleFactor(0.7)
                         ForEach(PointsPerGame.allCases) { num in
                             Button {
                                 points = num
@@ -94,8 +97,12 @@ struct HomeView: View {
                         VStack(spacing: 0) {
                             Text("Best")
                                 .font(.caption2)
+                                .lineLimit(1)
+                                .minimumScaleFactor(0.7)
                             Text("Of:")
                                 .font(.caption2)
+                                .lineLimit(1)
+                                .minimumScaleFactor(0.7)
                         }
                         ForEach(NumGames.allCases) { num in
                             Button {
@@ -135,6 +142,8 @@ struct HomeView: View {
                             "Resume Match",
                             systemImage: "play.fill"
                         )
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.7)
                     }
                     .accessibilityIdentifier("home.resume")
                 }
@@ -148,6 +157,8 @@ struct HomeView: View {
                 } label: {
                     // Creates a label that combines readable text with the named SF Symbol.
                     Label("New Match", systemImage: "plus.circle.fill")
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.7)
                 }
                 .accessibilityIdentifier("home.newMatch")
                 .confirmationDialog(
@@ -170,6 +181,8 @@ struct HomeView: View {
                     MatchHistoryView(game: $game)
                 } label: {
                     Label("Match History", systemImage: "clock.arrow.circlepath")
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.7)
                 }
                 .accessibilityIdentifier("home.history")
             }
@@ -206,7 +219,7 @@ struct BadmintonView: View {
     @Binding var game: GameState
     @Environment(\.dismiss) private var dismiss
     @State private var showDiscardConfirmation = false
-
+    @State private var returnHomeAfterCompletion = false
     private var showMatchCompletion: Binding<Bool> {
         Binding(
             // The binding reads its Boolean value by evaluating this getter closure.
@@ -260,7 +273,8 @@ struct BadmintonView: View {
                         returnHomeAfterCompletion = false
                         dismiss()
                     }
-                }) {
+                }
+            ) {
                 if let winner = game.matchWinner {
                     // Creates the modal screen used to confirm and save a completed match.
                     MatchCompletionView(
@@ -323,11 +337,11 @@ struct ScoreView: View {
                         
                         if !completedScores.isEmpty {
                             // Adds flexible empty space that pushes neighboring content apart.
-                            Spacer(minLength: 2)
+                            //Spacer(minLength: 1)
                             Text(completedScores)
                                 .font(.caption2)
                                 .lineLimit(1)
-                                .minimumScaleFactor(0.65)
+                                .minimumScaleFactor(0.5444)
                         }
                     }
                     .foregroundStyle(.primary)

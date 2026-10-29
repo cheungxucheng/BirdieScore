@@ -25,3 +25,5 @@ DerivedData/
 *.p8
 *.p12
 *.mobileprovision
+# Xcode distribution export folders
+/BirdieScore/BirdieScore Watch App 20*/

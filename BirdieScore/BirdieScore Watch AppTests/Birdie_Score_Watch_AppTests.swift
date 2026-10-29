@@ -2,6 +2,7 @@ import Foundation
 import XCTest
 @testable import BirdieScore_Watch_App
 
+//@MainActor
 final class MemoryMatchHistoryPersistence: MatchHistoryPersisting {
     var records: [MatchRecord]
     private(set) var saveCount = 0
@@ -20,16 +21,10 @@ final class MemoryMatchHistoryPersistence: MatchHistoryPersisting {
     }
 }
 
+// Match the app model's main-actor isolation, including protocol conformances.
+//@MainActor
+@MainActor
 final class BirdieScoreCoreTests: XCTestCase {
-    private var defaultsSuites: [String] = []
-
-    override func tearDown() {
-        for suite in defaultsSuites {
-            UserDefaults.standard.removePersistentDomain(forName: suite)
-        }
-        defaultsSuites.removeAll()
-        super.tearDown()
-    }
 
     func testOrdinaryPointAndRepeatedUndo() {
         var game = makeGame()
@@ -196,13 +191,13 @@ final class BirdieScoreCoreTests: XCTestCase {
         var game = makeGame(format: .bo3, persistence: history)
 
         game.pointWon(by: .teamA)
-        game.startNewMatch(format: MatchFormat(bestOf: .bo5, points: .p21))
+        game.startNewMatch(format: MatchFormat(bestOf: .bo5, points: .p11))
 
         XCTAssertEqual(game.scoreA, 0)
         XCTAssertEqual(game.scoreB, 0)
         XCTAssertEqual(game.gameNum, 1)
         XCTAssertEqual(game.matchFormat.bestOf, .bo5)
-        XCTAssertEqual(game.matchFormat.points, .p21)
+        XCTAssertEqual(game.matchFormat.points, .p11)
         XCTAssertEqual(game.matchPhase, .playing)
         XCTAssertFalse(game.canUndo)
         XCTAssertEqual(game.matchHistory, [existing])
@@ -423,8 +418,163 @@ final class BirdieScoreCoreTests: XCTestCase {
         XCTAssertEqual(decoded, record)
     }
 
+    func testAllMatchFormatCombinationsUseTheirOwnWinThresholds() {
+        for bestOf in NumGames.allCases {
+            for points in PointsPerGame.allCases {
+                var game = makeGame(format: bestOf, points: points)
+                for win in 1...bestOf.gamesNeededToWin {
+                    winGame(for: .teamB, in: &game)
+                    XCTAssertEqual(game.gamesWonB, win)
+                    XCTAssertEqual(game.completedGames.last,
+                                   GameResult(scoreA: points.rawValue - 2, scoreB: points.rawValue))
+                    if win < bestOf.gamesNeededToWin {
+                        XCTAssertEqual(game.matchPhase, .playing)
+                        XCTAssertEqual(game.gameNum, win + 1)
+                        XCTAssertNil(game.matchWinner)
+                    } else {
+                        XCTAssertEqual(game.matchPhase, .awaitingConfirmation)
+                        XCTAssertEqual(game.matchWinner, .teamB)
+                    }
+                }
+            }
+        }
+    }
+
+    func testElevenPointGameEndsAtElevenTen() {
+        var game = makeGame(format: .bo1, points: .p11)
+        reachTie(10, in: &game)
+        XCTAssertEqual(game.matchPhase, .playing)
+
+        game.pointWon(by: .teamA)
+
+        XCTAssertEqual(game.completedGames, [GameResult(scoreA: 11, scoreB: 10)])
+        XCTAssertEqual(game.matchPhase, .awaitingConfirmation)
+    }
+
+    func testFifteenPointGameRequiresTwoPointLead() {
+        var game = makeGame(format: .bo1, points: .p15)
+        reachTie(14, in: &game)
+        game.pointWon(by: .teamA)
+        XCTAssertEqual(game.matchPhase, .playing)
+        XCTAssertTrue(game.completedGames.isEmpty)
+
+        game.pointWon(by: .teamA)
+
+        XCTAssertEqual(game.completedGames, [GameResult(scoreA: 16, scoreB: 14)])
+        XCTAssertEqual(game.matchPhase, .awaitingConfirmation)
+    }
+
+    func testFifteenPointGameIsCappedAtTwentyOne() {
+        var game = makeGame(format: .bo1, points: .p15)
+        reachTie(20, in: &game)
+        XCTAssertEqual(game.matchPhase, .playing)
+
+        game.pointWon(by: .teamB)
+
+        XCTAssertEqual(game.completedGames, [GameResult(scoreA: 20, scoreB: 21)])
+        XCTAssertEqual(game.matchWinner, .teamB)
+    }
+
+    func testUndoCapWinningPointRestoresEveryPointsFormat() {
+        for points in PointsPerGame.allCases {
+            var game = makeGame(format: .bo1, points: points)
+            let tie = points.pointCap - 1
+            reachTie(tie, in: &game)
+            game.pointWon(by: .teamA)
+            XCTAssertEqual(game.matchPhase, .awaitingConfirmation)
+
+            game.undoLastPoint()
+
+            XCTAssertEqual(game.scoreA, tie)
+            XCTAssertEqual(game.scoreB, tie)
+            XCTAssertEqual(game.matchPhase, .playing)
+            XCTAssertEqual(game.matchFormat.points, points)
+            XCTAssertTrue(game.completedGames.isEmpty)
+            XCTAssertNil(game.matchWinner)
+        }
+    }
+
+    func testMatchFormatCodableRoundTripForAllChoices() throws {
+        for bestOf in NumGames.allCases {
+            for points in PointsPerGame.allCases {
+                let format = MatchFormat(bestOf: bestOf, points: points)
+                let data = try JSONEncoder().encode(format)
+                let decoded = try JSONDecoder().decode(MatchFormat.self, from: data)
+                XCTAssertEqual(decoded.bestOf, bestOf)
+                XCTAssertEqual(decoded.points, points)
+            }
+        }
+    }
+
+    func testActivePersistenceRestoresEveryMatchFormat() {
+        for bestOf in NumGames.allCases {
+            for points in PointsPerGame.allCases {
+                let defaults = makeDefaults()
+                let storage = ActiveMatchPersistence(defaults: defaults)
+                let history = MemoryMatchHistoryPersistence()
+                var original = GameState(activeStorage: storage, persistence: history)
+                original.startNewMatch(format: MatchFormat(bestOf: bestOf, points: points))
+                original.pointWon(by: .teamB)
+
+                let restored = GameState(activeStorage: storage, persistence: history)
+
+                XCTAssertEqual(restored.matchFormat.bestOf, bestOf)
+                XCTAssertEqual(restored.matchFormat.points, points)
+                XCTAssertEqual(restored.scoreA, 0)
+                XCTAssertEqual(restored.scoreB, 1)
+                XCTAssertEqual(restored.matchPhase, .playing)
+            }
+        }
+    }
+
+    func testRestoredPendingCompletionCanBeSavedExactlyOnce() {
+        let defaults = makeDefaults()
+        let storage = ActiveMatchPersistence(defaults: defaults)
+        let history = UserDefaultsMatchHistoryPersistence(defaults: defaults)
+        var original = GameState(activeStorage: storage, persistence: history)
+        original.startNewMatch(format: MatchFormat(bestOf: .bo1, points: .p15))
+        winGame(for: .teamA, in: &original)
+
+        var restored = GameState(activeStorage: storage, persistence: history)
+        XCTAssertEqual(restored.matchPhase, .awaitingConfirmation)
+        XCTAssertEqual(restored.matchFormat.points, .p15)
+        XCTAssertEqual(restored.matchWinner, .teamA)
+        // Current architecture intentionally persists scores, not undo snapshots.
+        XCTAssertFalse(restored.canUndo)
+        restored.pointWon(by: .teamB)
+        XCTAssertEqual(restored.scoreB, 0)
+
+        XCTAssertNotNil(restored.confirmCompletedMatch())
+        XCTAssertNil(restored.confirmCompletedMatch())
+        XCTAssertNil(storage.load())
+        XCTAssertEqual(history.load().count, 1)
+        XCTAssertEqual(history.load().first?.games, [GameResult(scoreA: 15, scoreB: 13)])
+    }
+
+    func testDiscardClearsActivePersistenceButPreservesHistoryAndFormat() {
+        let defaults = makeDefaults()
+        let storage = ActiveMatchPersistence(defaults: defaults)
+        let record = makeRecord(idValue: 9)
+        let history = MemoryMatchHistoryPersistence(records: [record])
+        var game = GameState(activeStorage: storage, persistence: history)
+        game.startNewMatch(format: MatchFormat(bestOf: .bo5, points: .p11))
+        game.pointWon(by: .teamA)
+
+        game.discardCurrentMatch()
+
+        XCTAssertNil(storage.load())
+        XCTAssertFalse(game.hasActiveMatchProgress)
+        XCTAssertFalse(game.canUndo)
+        XCTAssertEqual(game.matchPhase, .playing)
+        XCTAssertEqual(game.matchFormat.bestOf, .bo5)
+        XCTAssertEqual(game.matchFormat.points, .p11)
+        XCTAssertEqual(game.matchHistory, [record])
+        XCTAssertEqual(history.saveCount, 0)
+    }
+
     private func makeGame(
         format: NumGames = .bo3,
+        points: PointsPerGame = .p21,
         limit: Int = 10,
         persistence: MemoryMatchHistoryPersistence =
             MemoryMatchHistoryPersistence()
@@ -435,13 +585,16 @@ final class BirdieScoreCoreTests: XCTestCase {
             matchHistoryLimit: limit,
             persistence: persistence
         )
-        game.startNewMatch(format: MatchFormat(bestOf: format, points: .p21))
+        game.startNewMatch(format: MatchFormat(bestOf: format, points: points))
         return game
     }
 
     private func makeDefaults() -> UserDefaults {
         let suite = "BirdieScoreCoreTests.\(UUID().uuidString)"
-        defaultsSuites.append(suite)
+        // Capture only the suite name so cleanup doesn't depend on actor-bound state.
+        addTeardownBlock {
+            UserDefaults.standard.removePersistentDomain(forName: suite)
+        }
         let defaults = UserDefaults(suiteName: suite)!
         defaults.removePersistentDomain(forName: suite)
         return defaults
@@ -462,22 +615,19 @@ final class BirdieScoreCoreTests: XCTestCase {
         in game: inout GameState
     ) {
         let loser: Team = winner == .teamA ? .teamB : .teamA
-        award(19, to: loser, in: &game)
-        award(21, to: winner, in: &game)
+        let target = game.matchFormat.points.rawValue
+        award(target - 2, to: loser, in: &game)
+        award(target, to: winner, in: &game)
     }
 
     private func reachTie(
         _ score: Int,
         in game: inout GameState
     ) {
-        award(20, to: .teamA, in: &game)
-        award(20, to: .teamB, in: &game)
-
-        if score > 20 {
-            for _ in 21...score {
-                game.pointWon(by: .teamA)
-                game.pointWon(by: .teamB)
-            }
+        // Alternate points to avoid ending a shorter-format game on the way to a tie.
+        for _ in 0..<score {
+            game.pointWon(by: .teamA)
+            game.pointWon(by: .teamB)
         }
     }
 

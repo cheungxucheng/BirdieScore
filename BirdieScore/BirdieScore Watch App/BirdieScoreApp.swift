@@ -59,74 +59,70 @@ struct HomeView: View {
     var body: some View {
         NavigationView {
             List {
-                HStack(spacing: 4) {
-                    VStack() {
-                        Text("Points: ")
-                            .font(.caption2)
-                    }
-                    Spacer()
-                    ForEach(PointsPerGame.allCases) { num in
-                        Button {
-                            points = num
-                        } label: {
-                            Text("\(num.rawValue)")
-                                .font(.body)
-                                .frame(maxWidth: .infinity)
-                                .padding(.vertical, 7)
-                                .foregroundStyle(
-                                    points == num ? .white : .primary
-                                )
-                                .background(
-                                    points == num
+                VStack(spacing: 10) {
+                    HStack(spacing: 8) {
+                        Text("Pts: ").font(.caption2)
+                        ForEach(PointsPerGame.allCases) { num in
+                            Button {
+                                points = num
+                            } label: {
+                                Text("\(num.rawValue)")
+                                    .font(.body)
+                                    .frame(maxWidth: .infinity)
+                                    .padding(.vertical, 7)
+                                    .foregroundStyle(
+                                        points == num ? .white : .primary
+                                    )
+                                    .background(
+                                        points == num
                                         ? Color.accentColor
                                         : Color.gray.opacity(0.3)
-                                )
-                                .cornerRadius(10)
+                                    )
+                                    .cornerRadius(10)
                                 // .clipShape(Capsule())
+                            }
+                            .buttonStyle(.plain)
+                            .accessibilityLabel("Points \(num.rawValue)")
+                            .accessibilityIdentifier("format.\(num.rawValue)")
+                            .accessibilityValue(
+                                points == num ? "Selected" : "Not selected"
+                            )
                         }
-                        .buttonStyle(.plain)
-                        .accessibilityLabel("Points \(num.rawValue)")
-                        .accessibilityIdentifier("format.\(num.rawValue)")
-                        .accessibilityValue(
-                            points == num ? "Selected" : "Not selected"
-                        )
                     }
-                }
-                .listRowBackground(Color.black)
-
-                HStack(spacing: 4) {
-                    VStack() {
-                        Text("Best")
-                            .font(.caption2)
-                        Text("Of:")
-                            .font(.caption2)
-                    }
-                    Spacer()
-                    ForEach(NumGames.allCases) { num in
-                        Button {
-                            numsGames = num
-                        } label: {
-                            Text("\(num.rawValue)")
-                                .font(.body)
-                                .frame(maxWidth: .infinity)
-                                .padding(.vertical, 7)
-                                .foregroundStyle(
-                                    numsGames == num ? .white : .primary
-                                )
-                                .background(
-                                    numsGames == num
+                    
+                    HStack(spacing: 8) {
+                        VStack(spacing: 0) {
+                            Text("Best")
+                                .font(.caption2)
+                            Text("Of:")
+                                .font(.caption2)
+                        }
+                        ForEach(NumGames.allCases) { num in
+                            Button {
+                                numsGames = num
+                            } label: {
+                                Text("\(num.rawValue)")
+                                    .font(.body)
+                                    .frame(maxWidth: .infinity)
+                                    .padding(.vertical, 7)
+                                    .foregroundStyle(
+                                        numsGames == num ? .white : .primary
+                                    )
+                                    .background(
+                                        numsGames == num
                                         ? Color.accentColor
                                         : Color.gray.opacity(0.3)
-                                )
-                                .cornerRadius(10)
+                                    )
+                                    .cornerRadius(10)
                                 // .clipShape(Capsule())
+                            }
+                            .buttonStyle(.plain)
+                            .accessibilityLabel("Best of \(num.rawValue)")
+                            .accessibilityIdentifier("format.\(num.rawValue)")
+                            .accessibilityValue(
+                                numsGames == num ? "Selected" : "Not selected"
+                            )
                         }
-                        .buttonStyle(.plain)
-                        .accessibilityLabel("Best of \(num.rawValue)")
-                        .accessibilityIdentifier("format.\(num.rawValue)")
-                        .accessibilityValue(
-                            numsGames == num ? "Selected" : "Not selected"
-                        )
                     }
                 }
                 .listRowBackground(Color.black)

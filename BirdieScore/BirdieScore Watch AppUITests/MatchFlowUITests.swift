@@ -20,20 +20,25 @@ final class MatchFlowUITests: XCTestCase {
         app.terminate()
     }
 
-    func testFormatIsRememberedOnlyAfterStartingMatch() {
+    func testBothFormatChoicesAreRememberedOnlyAfterStartingMatch() {
         launchFresh()
         expectValue("Selected", on: app.buttons["format.3"])
+        expectValue("Selected", on: app.buttons["format.21"])
         tap("format.5")
+        tap("format.15")
         relaunch()
         expectValue("Selected", on: app.buttons["format.3"])
+        expectValue("Selected", on: app.buttons["format.21"])
 
         tap("format.1")
+        tap("format.11")
         tap("home.newMatch")
         expectScore("teamA", 0)
         tap("score.teamA")
         relaunch()
 
         expectValue("Selected", on: app.buttons["format.1"])
+        expectValue("Selected", on: app.buttons["format.11"])
         tap("home.resume")
         expectScore("teamA", 1)
     }
@@ -82,6 +87,7 @@ final class MatchFlowUITests: XCTestCase {
         tap("score.teamA")
         relaunch()
         tap("format.5")
+        tap("format.15")
         tap("home.newMatch")
         tap("newMatch.confirm")
 
@@ -90,6 +96,7 @@ final class MatchFlowUITests: XCTestCase {
         XCTAssertFalse(app.buttons["score.undo"].isEnabled)
         relaunch()
         expectValue("Selected", on: app.buttons["format.5"])
+        expectValue("Selected", on: app.buttons["format.15"])
         XCTAssertFalse(app.buttons["home.resume"].exists)
     }
 
@@ -112,7 +119,7 @@ final class MatchFlowUITests: XCTestCase {
 
     func testCompletionUndoRestoresTheFinalPoint() {
         reachCompletion()
-        tap("completion.undo")
+        tap("score.undo")
         expectScore("teamA", 20)
         expectScore("teamB", 0)
         XCTAssertFalse(app.staticTexts["completion.winner"].exists)
@@ -123,6 +130,10 @@ final class MatchFlowUITests: XCTestCase {
 
     func testSaveAndFinishPersistsHistoryWithoutAnActiveMatch() {
         reachCompletion()
+        // Completion state must survive relaunch before the user chooses to save it.
+        relaunch()
+        tap("home.resume")
+        XCTAssertTrue(app.staticTexts["completion.winner"].waitForExistence(timeout: 5))
         tap("completion.saveAndFinish")
         XCTAssertTrue(app.buttons["home.newMatch"].waitForExistence(timeout: 5))
         relaunch()
@@ -149,6 +160,34 @@ final class MatchFlowUITests: XCTestCase {
         tap("home.history")
         XCTAssertTrue(app.staticTexts["Your Team won"].waitForExistence(timeout: 5))
         XCTAssertEqual(app.buttons.matching(identifier: "history.delete").count, 1)
+    }
+
+    func testSelectedElevenPointFormatControlsMatchCompletion() {
+        launchFresh()
+        tap("format.11")
+        tap("format.1")
+        tap("home.newMatch")
+
+        for _ in 0..<10 { tap("score.teamA") }
+        expectScore("teamA", 10)
+        XCTAssertFalse(app.staticTexts["completion.winner"].exists)
+        tap("score.teamA")
+
+        XCTAssertTrue(app.staticTexts["completion.winner"].waitForExistence(timeout: 5))
+        tap("completion.saveAndFinish")
+        tap("home.history")
+        XCTAssertTrue(app.staticTexts["11-0"].waitForExistence(timeout: 5))
+    }
+
+    func testDiscardCompletedMatchDoesNotSaveHistoryOrResumeProgress() {
+        reachCompletion()
+        tap("completion.discard")
+        XCTAssertTrue(app.buttons["home.newMatch"].waitForExistence(timeout: 5))
+
+        relaunch()
+        XCTAssertFalse(app.buttons["home.resume"].exists)
+        tap("home.history")
+        XCTAssertTrue(app.staticTexts["history.empty"].waitForExistence(timeout: 5))
     }
 
     func testDeleteHistoryRecordPersistsAcrossRelaunch() {
@@ -220,8 +259,12 @@ final class MatchFlowUITests: XCTestCase {
         ]
         let button = app.buttons[dialogLabels[identifier] ?? identifier].firstMatch
         _ = button.waitForExistence(timeout: 5)
-        if identifier == "match.discard" || identifier == "history.clear" {
+        let isCompletionUndo = identifier == "score.undo"
+            && app.staticTexts["completion.winner"].exists
+        if identifier == "match.discard" || identifier == "history.clear" || isCompletionUndo {
             // Toolbar buttons do not move into view by scrolling the content.
+            XCTAssertTrue(button.exists, identifier, file: file, line: line)
+            XCTAssertTrue(button.isEnabled, identifier, file: file, line: line)
             let attachment = XCTAttachment(string: app.debugDescription)
             attachment.name = "Toolbar before tapping \(identifier)"
             attachment.lifetime = .deleteOnSuccess

@@ -253,7 +253,14 @@ struct BadmintonView: View {
             } message: {
                 Text("The unfinished match and its Undo history will be lost.")
             }
-            .sheet(isPresented: showMatchCompletion) {
+            .sheet(
+                isPresented: showMatchCompletion,
+                onDismiss: {
+                    if returnHomeAfterCompletion {
+                        returnHomeAfterCompletion = false
+                        dismiss()
+                    }
+                }) {
                 if let winner = game.matchWinner {
                     // Creates the modal screen used to confirm and save a completed match.
                     MatchCompletionView(
@@ -264,13 +271,14 @@ struct BadmintonView: View {
                             game.startNewMatch(format: game.matchFormat)
                         },
                         saveAndFinish: {
+                            returnHomeAfterCompletion = true
                             game.confirmCompletedMatch()
+                            // reuse startNewMatch to clear the game state
                             game.startNewMatch(format: game.matchFormat)
-                            dismiss()
                         },
                         discardAndFinish: {
+                            returnHomeAfterCompletion = true
                             game.discardCurrentMatch()
-                            dismiss()
                         }
                     )
                     .toolbar {

@@ -344,7 +344,6 @@ struct GameState {
     }
 
     mutating func discardCurrentMatch() {
-        activeStorage.clear()
         startNewMatch(format: matchFormat)
     }
 

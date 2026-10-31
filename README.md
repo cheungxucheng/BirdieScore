@@ -1,6 +1,6 @@
 #  BirdieScore
 
-BirdieScore is a SwiftUI Apple Watch app for keeping score during badminton matches. Its scoring interface uses large team buttons for quick input, supports undoing points, and saves completed matches in a match history for later review.
+BirdieScore is an Apple Watch app for keeping score during badminton matches. Its scoring interface uses large team buttons for quick input, supports undoing points, and saves completed matches in a match history for later review.
 
 ## Features
 

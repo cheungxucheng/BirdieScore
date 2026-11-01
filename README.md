@@ -5,10 +5,7 @@ BirdieScore is an Apple Watch app for keeping score during badminton matches. It
 ## Features
 
 - Tap either team panel to award a point.
-- Play best-of-n matches using badminton 21-point scoring rules:
-  - A game is normally won at 21 points with a two-point lead.
-  - Play continues after 20–20 until a team leads by two.
-  - At 29–29, the first team to reach 30 wins.
+- Play best-of-(1, 3, 5) matches using (11, 15, 21) point scoring rules.
 - Undo multiple points, including points that completed a game or match.
 - Confirm a completed match before saving it.
 - Save and begin another match or return to the home screen.

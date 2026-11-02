@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Get help with BirdieScore for Apple Watch. Find scoring instructions, answers to common questions, and contact support." />
+  <meta name="theme-color" content="#f7f6f2" />
+  <title>Privacy · BirdieScore</title>
+  <style>
+    :root {
+      --paper: #f7f6f2;
+      --ink: #202522;
+      --muted: #606960;
+      --line: #dedfd7;
+      --red: #c93e3b;
+      --blue: #2866b5;
+      --green: #315d46;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 28px; }
+    body { margin: 0; background: var(--paper); color: var(--ink); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; line-height: 1.65; -webkit-font-smoothing: antialiased; }
+    a { color: inherit; text-underline-offset: 4px; }
+    a:hover { color: var(--green); }
+    a:focus-visible, summary:focus-visible { outline: 3px solid var(--blue); outline-offset: 5px; border-radius: 3px; }
+    .skip-link { position: absolute; top: -100px; left: 16px; z-index: 5; padding: 12px 18px; background: white; }
+    .skip-link:focus { top: 12px; }
+    .shell { width: min(1120px, calc(100% - 64px)); margin-inline: auto; }
+    .topbar { display: flex; align-items: center; justify-content: space-between; gap: 24px; min-height: 100px; border-bottom: 1px solid var(--line); }
+    .brand { display: inline-flex; align-items: center; gap: 12px; font-size: 21px; font-weight: 750; letter-spacing: -.7px; text-decoration: none; }
+    .brand-mark { display: grid; place-items: center; width: 39px; height: 39px; border-radius: 12px; background: var(--ink); color: white; }
+    .brand-mark svg { width: 25px; height: 25px; }
+    nav { display: flex; gap: 26px; font-size: 14px; font-weight: 550; }
+    nav a { text-decoration: none; }
+    .hero { position: relative; padding: 83px 0 70px; max-width: 850px; }
+    .eyebrow { display: flex; align-items: center; gap: 10px; color: var(--green); font-size: 12px; font-weight: 750; letter-spacing: 2px; text-transform: uppercase; }
+    .eyebrow::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--green); }
+    h1 { margin: 22px 0; font-size: clamp(44px, 6.5vw, 76px); font-weight: 650; line-height: 1.06; letter-spacing: -3px; }
+    .serif { font-family: Georgia, "Times New Roman", serif; font-style: italic; font-weight: 400; color: var(--green); }
+    .intro { margin: 0; max-width: 590px; color: var(--muted); font-size: 18px; }
+    .contact { display: grid; grid-template-columns: 1.15fr 1fr; gap: 44px; padding: 32px 36px; background: var(--ink); border-radius: 18px; color: #fff; }
+    .contact h2 { margin: 0 0 6px; font-size: 24px; font-weight: 600; letter-spacing: -.6px; }
+    .contact p { margin: 0; color: #cbd1ca; font-size: 14px; }
+    .email { display: inline-flex; align-items: center; gap: 12px; margin-top: 17px; font-size: clamp(15px, 2vw, 19px); font-weight: 550; overflow-wrap: anywhere; }
+    .email:hover { color: #c9e9d5; }
+    .report { align-self: center; padding-left: 30px; border-left: 1px solid #50574f; }
+    .report strong { display: block; margin-bottom: 7px; color: #fff; font-size: 13px; }
+    .report p { max-width: 380px; }
+    section { padding-block: 65px; }
+    .section-heading { display: flex; justify-content: space-between; align-items: baseline; gap: 24px; margin-bottom: 26px; }
+    .section-heading h2 { margin: 0; font-size: 31px; line-height: 1.2; font-weight: 600; letter-spacing: -1px; }
+    .section-heading span { color: var(--muted); font-size: 13px; }
+    .guide-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .guide { padding: 27px; border: 1px solid var(--line); background: #fffefa; border-radius: 14px; }
+    .step { display: inline-grid; place-items: center; width: 34px; height: 34px; margin-bottom: 22px; border-radius: 50%; background: #e9eee7; color: var(--green); font-size: 12px; font-weight: 750; }
+    .guide:nth-child(2) .step { background: #f9e9e6; color: var(--red); }
+    .guide:nth-child(3) .step { background: #e8eef9; color: var(--blue); }
+    .guide h3 { margin: 0 0 19px; font-size: 21px; line-height: 1.3; letter-spacing: -.5px; font-weight: 650; }
+    .guide ul { list-style: none; padding: 0; margin: 0; }
+    .guide li { margin-top: 17px; color: var(--muted); font-size: 14px; }
+    .guide li:first-child { margin-top: 0; }
+    .guide strong { color: var(--ink); font-weight: 650; }
+    .team { display: inline-block; width: 8px; height: 8px; margin-right: 4px; border-radius: 50%; background: var(--red); }
+    .team.blue { background: var(--blue); }
+    .faq-section { padding-top: 0; }
+    .faq-layout { display: grid; grid-template-columns: .75fr 1.5fr; gap: 65px; padding-top: 44px; border-top: 1px solid var(--line); }
+    .faq-aside h2 { margin: 0 0 14px; font-size: 32px; letter-spacing: -1px; line-height: 1.15; font-weight: 600; }
+    .faq-aside p { max-width: 260px; color: var(--muted); font-size: 15px; }
+    details { border-bottom: 1px solid var(--line); }
+    details:first-child { border-top: 1px solid var(--line); }
+    summary { position: relative; padding: 22px 34px 22px 0; cursor: pointer; list-style: none; font-size: 16px; font-weight: 600; line-height: 1.5; }
+    summary::-webkit-details-marker { display: none; }
+    summary::after { content: "+"; position: absolute; right: 3px; top: 19px; font-size: 23px; color: var(--green); font-weight: 400; }
+    details[open] summary::after { content: "−"; }
+    details p { margin: 0; padding: 0 25px 23px 0; color: var(--muted); font-size: 15px; }
+    footer { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; padding: 24px 0 30px; border-top: 1px solid var(--line); color: var(--muted); font-size: 12px; }
+    footer span:first-child { color: var(--ink); font-weight: 650; }
+    @media (max-width: 850px) {
+      .guide-grid { grid-template-columns: 1fr; }
+      .guide { padding: 25px; }
+      .step { margin-bottom: 14px; }
+      .contact { gap: 25px; padding: 28px; }
+      .faq-layout { grid-template-columns: 1fr; gap: 24px; }
+      .faq-aside p { max-width: none; }
+    }
+    @media (max-width: 560px) {
+      .shell { width: calc(100% - 36px); }
+      .topbar { min-height: 83px; gap: 14px; }
+      .brand { font-size: 19px; gap: 8px; }
+      .brand-mark { width: 32px; height: 32px; border-radius: 10px; }
+      nav { gap: 16px; font-size: 13px; }
+      .hero { padding: 54px 0 38px; }
+      h1 { letter-spacing: -1.8px; }
+      .intro { font-size: 16px; }
+      .contact { grid-template-columns: 1fr; gap: 24px; padding: 25px; }
+      .report { padding: 21px 0 0; border-left: 0; border-top: 1px solid #50574f; }
+      section { padding-block: 44px; }
+      .section-heading { display: block; }
+      .section-heading span { display: block; margin-top: 9px; }
+      .section-heading h2, .faq-aside h2 { font-size: 28px; }
+      .faq-layout { padding-top: 32px; }
+    }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="shell">
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="BirdieScore support home">
+        <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none"><path d="m8 19 4-14 4 1-3 14M14 20 20 6l4 2-7 14M19 23l7-12 3 3-7 12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 22c-3 4-1 8 3 8 2 0 4-1 5-3l-8-5Z" fill="currentColor"/></svg></span>
+        BirdieScore
+      </a>
+      <nav aria-label="Support navigation"><a href="#guide">Quick guide</a><a href="#faq">FAQ</a></nav>
+    </header>
+    <main id="main">
+      <div class="hero">
+        <div class="eyebrow">BirdieScore Privacy Policy</div>
+        <p>
+            We store data like scores, active matches, match history, and selected settings(number of games/points per game) on device.<br>
+            We do not transmit this match data off of the Apple Watch, nor do we use analytics, advertising or tracking services based on said data.<br>
+            Active match progress remains until overwritten, discarded, or match is completed. Match History retains 25 most recent matches.<br>
+            Users can delete match histories or discard active match data.<br>
+            We do not store any personal user data aside from the ones stated above.
+        </p>
+      </div>
+  </div>
+</body>
+</html>

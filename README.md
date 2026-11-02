@@ -9,7 +9,7 @@ BirdieScore is an Apple Watch app for keeping score during badminton matches. It
 - Undo multiple points, including points that completed a game or match.
 - Confirm a completed match before saving it.
 - Save and begin another match or return to the home screen.
-- Persist the 10 most recent confirmed matches
+- Persist the 25 most recent confirmed matches
 - Review, delete, or clear saved match history.
 - Resume previously unfinished matches.
 

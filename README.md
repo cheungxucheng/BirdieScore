@@ -20,7 +20,7 @@ BirdieScore is an Apple Watch app for keeping score during badminton matches. It
 - An Apple developer account for signing physical-device builds
 - Swift 6.0 or later to run the standalone Swift package tests
 
-The Xcode project currently has a watchOS 8.7 deployment target.
+The Xcode project has a watchOS 8.7 deployment target.
 
 ## Run the watch app
 
